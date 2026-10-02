@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Django database lokal
+Presenly_backend/db.sqlite3
+
+# Dataset identitas dan foto mahasiswa
+Presenly_backend/dataset/
+
+# Environment
+.env
+
+# VS Code
+.vscode/
+
+# Model / weight AI
+*.h5
+.deepface/
