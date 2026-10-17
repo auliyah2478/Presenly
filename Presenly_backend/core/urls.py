@@ -10,6 +10,8 @@ from .views import (
     FaceEmbeddingViewSet,
     SesiAbsensiViewSet,
     RiwayatAbsensiViewSet,
+    scan_absensi,
+    login_api,
 )
 
 
@@ -27,4 +29,16 @@ router.register(r'riwayat-absensi', RiwayatAbsensiViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+
+    path(
+        'absensi/scan/',
+        scan_absensi,
+        name='scan-absensi'
+    ),
+
+    path(
+        'login/',
+        login_api,
+        name='login-api'
+    ),
 ]

@@ -9,9 +9,11 @@ env/
 
 # Django database lokal
 Presenly_backend/db.sqlite3
+Presenly_backend/db_lama.sqlite3
 
 # Dataset identitas dan foto mahasiswa
 Presenly_backend/dataset/
+Presenly_backend/test_foto/
 
 # Environment
 .env
