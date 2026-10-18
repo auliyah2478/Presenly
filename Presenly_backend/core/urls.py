@@ -12,6 +12,7 @@ from .views import (
     RiwayatAbsensiViewSet,
     scan_absensi,
     login_api,
+    registrasi_wajah,
 )
 
 
@@ -40,5 +41,11 @@ urlpatterns = [
         'login/',
         login_api,
         name='login-api'
+    ),
+
+    path(
+        'registrasi-wajah/',
+        registrasi_wajah,
+        name='registrasi-wajah'
     ),
 ]

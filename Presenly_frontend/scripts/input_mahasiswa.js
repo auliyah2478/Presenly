@@ -1,15 +1,21 @@
 const API_URL = "http://127.0.0.1:8000/api";
 
-const kelasSelect = document.getElementById("kelas");
-const simpanButton = document.getElementById("simpanButton");
-const message = document.getElementById("message");
+const kelasSelect =
+    document.getElementById("kelas");
+
+const simpanButton =
+    document.getElementById("simpanButton");
+
+const message =
+    document.getElementById("message");
+
+const token =
+    localStorage.getItem("token");
 
 
 // ===============================
 // CEK LOGIN
 // ===============================
-
-const token = localStorage.getItem("token");
 
 if (!token) {
     window.location.href = "login.html";
@@ -28,14 +34,16 @@ async function loadKelas() {
             `${API_URL}/kelas/`
         );
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
-        data.forEach(kelas => {
+        data.forEach(function (kelas) {
 
             const option =
                 document.createElement("option");
 
-            option.value = kelas.id;
+            option.value =
+                kelas.id;
 
             option.textContent =
                 kelas.nama_kelas;
@@ -52,7 +60,6 @@ async function loadKelas() {
             "Gagal mengambil data kelas.";
 
     }
-
 }
 
 
@@ -65,16 +72,19 @@ simpanButton.addEventListener(
     async function () {
 
         const npm =
-            document.getElementById("npm").value;
+            document.getElementById("npm")
+                .value.trim();
 
         const nama =
-            document.getElementById("nama").value;
+            document.getElementById("nama")
+                .value.trim();
 
         const email =
-            document.getElementById("email").value;
+            document.getElementById("email")
+                .value.trim();
 
         const kelas =
-            document.getElementById("kelas").value;
+            kelasSelect.value;
 
 
         if (!npm || !nama || !kelas) {
@@ -120,19 +130,23 @@ simpanButton.addEventListener(
                 message.innerText =
                     "Mahasiswa berhasil ditambahkan.";
 
-                document.getElementById("npm").value = "";
-                document.getElementById("nama").value = "";
-                document.getElementById("email").value = "";
+                setTimeout(function () {
 
-                kelasSelect.value = "";
+                    window.location.href =
+                        `registrasi_wajah.html?npm=${encodeURIComponent(npm)}`;
+
+                }, 500);
 
             } else {
 
+                console.log(data);
+
                 message.innerText =
-                    JSON.stringify(data);
+                    data.npm?.[0] ||
+                    data.email?.[0] ||
+                    "Gagal menyimpan mahasiswa.";
 
             }
-
 
         } catch (error) {
 
@@ -147,5 +161,4 @@ simpanButton.addEventListener(
 );
 
 
-// jalankan saat halaman dibuka
 loadKelas();

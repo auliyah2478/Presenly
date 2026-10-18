@@ -342,3 +342,118 @@ def login_api(request):
         },
         status=status.HTTP_200_OK
     )
+
+@api_view(["POST"])
+def registrasi_wajah(request):
+    npm = request.data.get("npm")
+    foto = request.FILES.get("foto")
+
+    if not npm:
+        return Response(
+            {
+                "status": "gagal",
+                "message": "NPM wajib diisi."
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    if not foto:
+        return Response(
+            {
+                "status": "gagal",
+                "message": "Foto wajah belum dikirim."
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    try:
+        mahasiswa = Mahasiswa.objects.get(npm=npm)
+    except Mahasiswa.DoesNotExist:
+        return Response(
+            {
+                "status": "gagal",
+                "message": "Mahasiswa tidak ditemukan."
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    try:
+        with tempfile.NamedTemporaryFile(
+            suffix=".jpg",
+            delete=False
+        ) as temp_file:
+
+            for chunk in foto.chunks():
+                temp_file.write(chunk)
+
+            foto_path = temp_file.name
+
+        img = cv2.imread(foto_path)
+
+        if img is None:
+            return Response(
+                {
+                    "status": "gagal",
+                    "message": "Foto tidak dapat dibaca."
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        tinggi, lebar = img.shape[:2]
+
+        max_size = 1600
+
+        if max(tinggi, lebar) > max_size:
+
+            scale = max_size / max(
+                tinggi,
+                lebar
+            )
+
+            ukuran_baru = (
+                int(lebar * scale),
+                int(tinggi * scale)
+            )
+
+            img = cv2.resize(
+                img,
+                ukuran_baru,
+                interpolation=cv2.INTER_AREA
+            )
+
+        embedding_objs = DeepFace.represent(
+            img_path=img,
+            model_name="ArcFace",
+            detector_backend="mtcnn",
+            enforce_detection=True
+        )
+
+        embedding = embedding_objs[0]["embedding"]
+
+        FaceEmbedding.objects.update_or_create(
+            mahasiswa=mahasiswa,
+            defaults={
+                "embedding": embedding
+            }
+        )
+
+        return Response(
+            {
+                "status": "berhasil",
+                "message": "Registrasi wajah berhasil.",
+                "nama": mahasiswa.nama,
+                "npm": mahasiswa.npm,
+                "kelas": mahasiswa.kelas.nama_kelas
+            },
+            status=status.HTTP_201_CREATED
+        )
+
+    except Exception as e:
+
+        return Response(
+            {
+                "status": "gagal",
+                "message": str(e)
+            },
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )

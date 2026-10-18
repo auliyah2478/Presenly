@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Registrasi Wajah - Presenly</title>
+
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <h1>Registrasi Wajah</h1>
+
+        <p id="infoMahasiswa">
+            Silakan arahkan wajah ke kamera
+        </p>
+
+        <video
+            id="video"
+            width="100%"
+            autoplay
+            playsinline
+        ></video>
+
+        <canvas
+            id="canvas"
+            style="display: none;"
+        ></canvas>
+
+        <button id="registrasiButton">
+            Registrasi Wajah
+        </button>
+
+        <p id="message"></p>
+
+    </div>
+
+</div>
+
+<script src="scripts/registrasi_wajah.js"></script>
+
+</body>
+</html>

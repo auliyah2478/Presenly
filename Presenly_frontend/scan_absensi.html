@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Absensi - Presenly</title>
+
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <h1>Scan Absensi</h1>
+
+        <video
+            id="video"
+            width="100%"
+            autoplay
+            playsinline
+        ></video>
+
+        <canvas
+            id="canvas"
+            style="display:none;"
+        ></canvas>
+
+        <button id="scanButton">
+            Scan Wajah
+        </button>
+
+        <p id="message"></p>
+
+        <div id="hasil"></div>
+
+    </div>
+
+</div>
+
+<script src="scripts/scan_absensi.js"></script>
+
+</body>
+</html>
