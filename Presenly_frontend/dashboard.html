@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Dashboard Presenly
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="styles/dashboard.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ================================= -->
+<!-- SIDEBAR -->
+<!-- ================================= -->
+
+<div class="sidebar">
+
+
+    <div class="brand">
+        Presenly
+    </div>
+
+
+    <div class="menu">
+
+
+        <a
+            href="dashboard.html"
+            class="active"
+        >
+            Dashboard
+        </a>
+
+
+        <!-- ================================= -->
+        <!-- MENU KHUSUS ADMIN -->
+        <!-- ================================= -->
+
+        <div id="menuAdmin">
+
+
+            <a href="input_mahasiswa.html">
+                Registrasi Mahasiswa
+            </a>
+
+
+            <a href="scan_absensi.html">
+                Scan Absensi
+            </a>
+
+
+            <a href="#mahasiswa">
+                Data Mahasiswa
+            </a>
+
+
+            <a
+                href="#jadwal"
+                id="menuJadwal"
+            >
+                Kelola Jadwal
+            </a>
+
+
+            <a
+                href="#sesi"
+                id="menuSesi"
+            >
+                Sesi Absensi
+            </a>
+
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- MENU KHUSUS DOSEN -->
+        <!-- ================================= -->
+
+        <div id="menuDosen">
+
+
+            <a href="#jadwalDosen">
+                Jadwal Mengajar
+            </a>
+
+
+            <a href="#riwayat">
+                Riwayat Kehadiran
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+    <button
+        id="logoutButton"
+        class="logout-button"
+    >
+        Logout
+    </button>
+
+
+</div>
+
+
+
+<!-- ================================= -->
+<!-- MAIN CONTENT -->
+<!-- ================================= -->
+
+<div class="main-content">
+
+
+    <!-- ================================= -->
+    <!-- TOPBAR -->
+    <!-- ================================= -->
+
+    <div class="topbar">
+
+
+        <div>
+
+
+            <h1 id="judulDashboard">
+                Dashboard
+            </h1>
+
+
+            <p>
+                Sistem Absensi Presenly
+            </p>
+
+
+        </div>
+
+
+        <div class="user-info">
+
+
+            <span id="username">
+                User
+            </span>
+
+
+            <span
+                id="roleBadge"
+                class="role-badge"
+            >
+                ROLE
+            </span>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================================= -->
+    <!-- DASHBOARD ADMIN -->
+    <!-- ================================= -->
+
+    <div id="dashboardAdmin">
+
+
+        <!-- ================================= -->
+        <!-- CARD STATISTIK -->
+        <!-- ================================= -->
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <p>
+                    Total Mahasiswa
+                </p>
+
+                <h2 id="totalMahasiswa">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    Total Kelas
+                </p>
+
+                <h2 id="totalKelas">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    Total Jadwal
+                </p>
+
+                <h2 id="totalJadwalAdmin">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    Riwayat Absensi
+                </p>
+
+                <h2 id="totalAbsensiAdmin">
+                    0
+                </h2>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ================================= -->
+        <!-- MENU CEPAT -->
+        <!-- ================================= -->
+
+        <section>
+
+
+            <h2>
+                Menu Cepat
+            </h2>
+
+
+            <div class="quick-menu">
+
+
+                <a
+                    href="input_mahasiswa.html"
+                    class="quick-card"
+                >
+
+                    <h3>
+                        Registrasi Mahasiswa
+                    </h3>
+
+                    <p>
+                        Tambahkan data dan wajah mahasiswa baru.
+                    </p>
+
+                </a>
+
+
+                <a
+                    href="scan_absensi.html"
+                    class="quick-card"
+                >
+
+                    <h3>
+                        Scan Absensi
+                    </h3>
+
+                    <p>
+                        Buka halaman absensi menggunakan kamera.
+                    </p>
+
+                </a>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- DATA MAHASISWA -->
+        <!-- ================================= -->
+
+        <section id="mahasiswa">
+
+
+            <div class="section-header">
+
+
+                <h2>
+                    Data Mahasiswa
+                </h2>
+
+
+                <input
+                    type="text"
+                    id="searchMahasiswa"
+                    placeholder="Cari nama atau NPM..."
+                >
+
+
+            </div>
+
+
+            <div class="table-container">
+
+
+                <table>
+
+
+                    <thead>
+
+
+                        <tr>
+
+                            <th>
+                                No
+                            </th>
+
+                            <th>
+                                NPM
+                            </th>
+
+                            <th>
+                                Nama
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Kelas
+                            </th>
+
+                        </tr>
+
+
+                    </thead>
+
+
+                    <tbody id="mahasiswaTable">
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+
+
+    <!-- ================================= -->
+    <!-- KELOLA JADWAL ADMIN -->
+    <!-- ================================= -->
+
+    <section
+        id="sectionJadwal"
+        style="display: none;"
+    >
+
+
+        <div class="section-header">
+
+
+            <h2>
+                Kelola Jadwal
+            </h2>
+
+
+        </div>
+
+
+        <div class="table-container">
+
+
+            <table>
+
+
+                <thead>
+
+
+                    <tr>
+
+                        <th>
+                            No
+                        </th>
+
+                        <th>
+                            Hari
+                        </th>
+
+                        <th>
+                            Mata Kuliah
+                        </th>
+
+                        <th>
+                            Kelas
+                        </th>
+
+                        <th>
+                            Dosen
+                        </th>
+
+                        <th>
+                            Jam Mulai
+                        </th>
+
+                        <th>
+                            Jam Selesai
+                        </th>
+
+                    </tr>
+
+
+                </thead>
+
+
+                <tbody id="jadwalTable">
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ================================= -->
+    <!-- SESI ABSENSI ADMIN -->
+    <!-- ================================= -->
+
+    <section
+        id="sectionSesiAbsensi"
+        style="display: none;"
+    >
+
+
+        <div class="section-header">
+
+
+            <h2>
+                Sesi Absensi
+            </h2>
+
+
+        </div>
+
+
+        <div class="table-container">
+
+
+            <table>
+
+
+                <thead>
+
+
+                    <tr>
+
+                        <th>
+                            No
+                        </th>
+
+                        <th>
+                            Mata Kuliah
+                        </th>
+
+                        <th>
+                            Kelas
+                        </th>
+
+                        <th>
+                            Waktu Buka
+                        </th>
+
+                        <th>
+                            Waktu Tutup
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+
+                </thead>
+
+
+                <tbody id="sesiTable">
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ================================= -->
+    <!-- DASHBOARD DOSEN -->
+    <!-- ================================= -->
+
+    <div id="dashboardDosen">
+
+
+        <!-- ================================= -->
+        <!-- CARD STATISTIK DOSEN -->
+        <!-- ================================= -->
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <p>
+                    Total Jadwal
+                </p>
+
+                <h2 id="totalJadwalDosen">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    Total Kehadiran
+                </p>
+
+                <h2 id="totalAbsensiDosen">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    Hadir
+                </p>
+
+                <h2 id="totalHadir">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    Terlambat
+                </p>
+
+                <h2 id="totalTerlambat">
+                    0
+                </h2>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ================================= -->
+        <!-- JADWAL MENGAJAR DOSEN -->
+        <!-- ================================= -->
+
+        <section id="jadwalDosen">
+
+
+            <h2>
+                Jadwal Mengajar
+            </h2>
+
+
+            <div class="table-container">
+
+
+                <table>
+
+
+                    <thead>
+
+
+                        <tr>
+
+                            <th>
+                                No
+                            </th>
+
+                            <th>
+                                Mata Kuliah
+                            </th>
+
+                            <th>
+                                Kelas
+                            </th>
+
+                            <th>
+                                Hari
+                            </th>
+
+                            <th>
+                                Jam
+                            </th>
+
+                        </tr>
+
+
+                    </thead>
+
+
+                    <tbody id="jadwalDosenTable">
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- RIWAYAT KEHADIRAN -->
+        <!-- ================================= -->
+
+        <section id="riwayat">
+
+
+            <h2>
+                Riwayat Kehadiran
+            </h2>
+
+
+            <div class="table-container">
+
+
+                <table>
+
+
+                    <thead>
+
+
+                        <tr>
+
+                            <th>
+                                No
+                            </th>
+
+                            <th>
+                                Mahasiswa
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Waktu
+                            </th>
+
+                        </tr>
+
+
+                    </thead>
+
+
+                    <tbody id="absensiDosenTable">
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ================================= -->
+<!-- JAVASCRIPT -->
+<!-- ================================= -->
+
+<script src="scripts/dashboard.js"></script>
+
+
+</body>
+
+</html>

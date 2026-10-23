@@ -1,0 +1,454 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 240px;
+    height: 100vh;
+
+    background: #ffffff;
+
+    border-right: 1px solid #e5e7eb;
+
+    padding: 24px 18px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.brand {
+    font-size: 27px;
+    font-weight: bold;
+
+    margin-bottom: 35px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.menu a {
+    display: block;
+
+    text-decoration: none;
+
+    color: #4b5563;
+
+    padding: 12px 14px;
+
+    border-radius: 8px;
+
+    transition: 0.2s;
+}
+
+.menu a:hover {
+    background: #f3f6fb;
+
+    color: #2563eb;
+}
+
+.menu a.active {
+    background: #eef2ff;
+
+    color: #2563eb;
+
+    font-weight: 600;
+}
+
+.logout-button {
+    margin-top: auto;
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #f3f4f6;
+
+    cursor: pointer;
+
+    font-weight: 600;
+}
+
+.logout-button:hover {
+    background: #e5e7eb;
+}
+
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
+.main-content {
+    margin-left: 240px;
+
+    padding: 30px;
+}
+
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 30px;
+}
+
+.topbar h1 {
+    margin: 0 0 6px 0;
+
+    font-size: 28px;
+}
+
+.topbar p {
+    margin: 0;
+
+    color: #6b7280;
+}
+
+.user-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+#username {
+    font-weight: 600;
+}
+
+.role-badge {
+    padding: 6px 11px;
+
+    border-radius: 20px;
+
+    background: #eef2ff;
+
+    color: #2563eb;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   STATISTIC CARDS
+========================= */
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+.card {
+    background: white;
+
+    padding: 22px;
+
+    border-radius: 12px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow:
+        0 3px 10px
+        rgba(0, 0, 0, 0.04);
+}
+
+.card p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+.card h2 {
+    margin:
+        12px 0 0 0;
+
+    font-size: 30px;
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+section {
+    background: white;
+
+    padding: 24px;
+
+    border-radius: 12px;
+
+    border: 1px solid #e5e7eb;
+
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 3px 10px
+        rgba(0, 0, 0, 0.03);
+}
+
+section h2 {
+    margin-top: 0;
+}
+
+.section-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+.section-header input {
+    width: 280px;
+
+    padding: 11px 13px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    outline: none;
+}
+
+.section-header input:focus {
+    border-color: #2563eb;
+}
+
+
+/* =========================
+   QUICK MENU
+========================= */
+
+.quick-menu {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+}
+
+.quick-card {
+    text-decoration: none;
+
+    color: #1f2937;
+
+    padding: 20px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    transition: 0.2s;
+}
+
+.quick-card h3 {
+    margin:
+        0 0 8px 0;
+}
+
+.quick-card p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+.quick-card:hover {
+    border-color: #2563eb;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 5px 15px
+        rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-container {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f9fafb;
+}
+
+th {
+    text-align: left;
+
+    padding: 13px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+td {
+    padding: 13px;
+
+    border-top: 1px solid #e5e7eb;
+
+    font-size: 14px;
+}
+
+tbody tr:hover {
+    background: #fafafa;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    background: #f3f4f6;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+/* =========================
+   DASHBOARD ROLE
+========================= */
+
+#dashboardAdmin,
+#dashboardDosen {
+    display: none;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+
+    .cards {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .sidebar {
+        width: 190px;
+    }
+
+    .main-content {
+        margin-left: 190px;
+
+        padding: 20px;
+    }
+
+    .topbar {
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .quick-menu {
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+
+        padding: 15px;
+    }
+
+    .cards {
+        grid-template-columns:
+            1fr;
+    }
+
+    .topbar {
+        flex-direction: column;
+    }
+
+    .section-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+    .section-header input {
+        width: 100%;
+    }
+
+}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class Kelas(models.Model):
@@ -13,13 +14,27 @@ class Kelas(models.Model):
 
 
 class Dosen(models.Model):
-    nama = models.CharField(max_length=100)
-    nidn = models.CharField(max_length=30, unique=True)
-    email = models.EmailField(unique=True)
 
-    class Meta:
-        verbose_name = "Dosen"
-        verbose_name_plural = "Dosen"
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="dosen_profile"
+    )
+
+    nama = models.CharField(
+        max_length=150
+    )
+
+    nidn = models.CharField(
+        max_length=30,
+        unique=True
+    )
+
+    email = models.EmailField(
+        unique=True
+    )
 
     def __str__(self):
         return self.nama

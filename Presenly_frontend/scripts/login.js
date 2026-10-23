@@ -21,6 +21,11 @@ loginButton.addEventListener("click", async function () {
 
     try {
 
+        loginButton.disabled = true;
+
+        message.innerText =
+            "Sedang login...";
+
         const response = await fetch(
             "http://127.0.0.1:8000/api/login/",
             {
@@ -37,7 +42,13 @@ loginButton.addEventListener("click", async function () {
             }
         );
 
-        const data = await response.json();
+        const data =
+            await response.json();
+
+
+        // ===============================
+        // LOGIN BERHASIL
+        // ===============================
 
         if (response.ok) {
 
@@ -59,24 +70,38 @@ loginButton.addEventListener("click", async function () {
             message.innerText =
                 "Login berhasil.";
 
+
             setTimeout(function () {
 
                 window.location.href =
-                    "input_mahasiswa.html";
+                    "dashboard.html";
 
             }, 500);
 
-        } else {
+        }
+
+        // ===============================
+        // LOGIN GAGAL
+        // ===============================
+
+        else {
 
             message.innerText =
-                data.message || "Login gagal.";
+                data.message ||
+                "Username atau password salah.";
 
+            loginButton.disabled =
+                false;
         }
+
 
     } catch (error) {
 
         message.innerText =
             "Gagal terhubung ke server.";
+
+        loginButton.disabled =
+            false;
 
         console.error(
             "Login error:",

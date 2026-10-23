@@ -5,7 +5,8 @@ from datetime import datetime
 from django.utils import timezone
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 import cv2
 import numpy as np
@@ -57,8 +58,66 @@ class MataKuliahViewSet(viewsets.ModelViewSet):
 
 
 class JadwalViewSet(viewsets.ModelViewSet):
+
     queryset = Jadwal.objects.all()
     serializer_class = JadwalSerializer
+
+    authentication_classes = [
+        TokenAuthentication
+    ]
+
+    permission_classes = [
+        IsAuthenticated
+    ]
+
+    def get_queryset(self):
+
+        user = self.request.user
+
+        # ===============================
+        # ADMIN
+        # ===============================
+
+        if user.is_superuser:
+
+            return (
+                Jadwal.objects
+                .select_related(
+                    "mata_kuliah",
+                    "kelas",
+                    "dosen"
+                )
+                .all()
+            )
+
+
+        # ===============================
+        # DOSEN
+        # ===============================
+
+        if hasattr(
+            user,
+            "dosen_profile"
+        ):
+
+            dosen = (
+                user.dosen_profile
+            )
+
+            return (
+                Jadwal.objects
+                    .select_related(
+                        "mata_kuliah",
+                        "kelas",
+                        "dosen"
+                    )
+                    .filter(
+                        dosen=dosen
+                    )
+            )
+
+
+        return Jadwal.objects.none()
 
 
 class FaceEmbeddingViewSet(viewsets.ModelViewSet):
@@ -71,9 +130,84 @@ class SesiAbsensiViewSet(viewsets.ModelViewSet):
     serializer_class = SesiAbsensiSerializer
 
 
-class RiwayatAbsensiViewSet(viewsets.ModelViewSet):
-    queryset = RiwayatAbsensi.objects.all()
-    serializer_class = RiwayatAbsensiSerializer
+class RiwayatAbsensiViewSet(
+    viewsets.ModelViewSet
+):
+
+    queryset = (
+        RiwayatAbsensi.objects.all()
+    )
+
+    serializer_class = (
+        RiwayatAbsensiSerializer
+    )
+
+    authentication_classes = [
+        TokenAuthentication
+    ]
+
+    permission_classes = [
+        IsAuthenticated
+    ]
+
+
+    def get_queryset(self):
+
+        user = self.request.user
+
+
+        # ===============================
+        # ADMIN
+        # ===============================
+
+        if user.is_superuser:
+
+            return (
+                RiwayatAbsensi.objects
+                    .select_related(
+                        "mahasiswa",
+                        "sesi_absensi",
+                        "sesi_absensi__jadwal"
+                    )
+                    .all()
+                    .order_by(
+                        "-waktu_absen"
+                    )
+            )
+
+
+        # ===============================
+        # DOSEN
+        # ===============================
+
+        if hasattr(
+            user,
+            "dosen_profile"
+        ):
+
+            dosen = (
+                user.dosen_profile
+            )
+
+            return (
+                RiwayatAbsensi.objects
+                    .select_related(
+                        "mahasiswa",
+                        "sesi_absensi",
+                        "sesi_absensi__jadwal"
+                    )
+                    .filter(
+                        sesi_absensi__jadwal__dosen=dosen
+                    )
+                    .order_by(
+                        "-waktu_absen"
+                    )
+            )
+
+
+        return (
+            RiwayatAbsensi.objects.none()
+        )
 
 def cosine_distance(vector1, vector2):
     a = np.array(vector1, dtype=np.float32)
@@ -299,47 +433,123 @@ def scan_absensi(request):
 
 @api_view(["POST"])
 def login_api(request):
-    username = request.data.get("username")
-    password = request.data.get("password")
+
+    username = request.data.get(
+        "username"
+    )
+
+    password = request.data.get(
+        "password"
+    )
+
+
+    # ===============================
+    # VALIDASI INPUT
+    # ===============================
 
     if not username or not password:
+
         return Response(
             {
                 "status": "gagal",
-                "message": "Username dan password wajib diisi."
+                "message": (
+                    "Username dan password wajib diisi."
+                )
             },
             status=status.HTTP_400_BAD_REQUEST
         )
+
+
+    # ===============================
+    # AUTHENTICATE USER
+    # ===============================
 
     user = authenticate(
         username=username,
         password=password
     )
 
+
     if user is None:
+
         return Response(
             {
                 "status": "gagal",
-                "message": "Username atau password salah."
+                "message": (
+                    "Username atau password salah."
+                )
             },
             status=status.HTTP_401_UNAUTHORIZED
         )
 
-    token, _ = Token.objects.get_or_create(user=user)
+
+    # ===============================
+    # TENTUKAN ROLE
+    # ===============================
 
     if user.is_superuser:
+
         role = "admin"
-    else:
+
+
+    elif hasattr(
+        user,
+        "dosen_profile"
+    ):
+
         role = "dosen"
 
+
+    else:
+
+        return Response(
+            {
+                "status": "gagal",
+                "message": (
+                    "Akun belum terhubung "
+                    "dengan data dosen."
+                )
+            },
+            status=status.HTTP_403_FORBIDDEN
+        )
+
+
+    # ===============================
+    # TOKEN
+    # ===============================
+
+    token, _ = (
+        Token.objects.get_or_create(
+            user=user
+        )
+    )
+
+
+    # ===============================
+    # RESPONSE LOGIN
+    # ===============================
+
+    response_data = {
+        "status": "berhasil",
+        "message": "Login berhasil.",
+        "username": user.username,
+        "role": role,
+        "token": token.key
+    }
+
+
+    # Jika login dosen,
+    # kirim juga nama dosennya.
+
+    if role == "dosen":
+
+        response_data["nama_dosen"] = (
+            user.dosen_profile.nama
+        )
+
+
     return Response(
-        {
-            "status": "berhasil",
-            "message": "Login berhasil.",
-            "username": user.username,
-            "role": role,
-            "token": token.key
-        },
+        response_data,
         status=status.HTTP_200_OK
     )
 
