@@ -93,6 +93,16 @@ const sectionSesiAbsensi =
         "sectionSesiAbsensi"
     );
 
+const generateJadwalButton =
+    document.getElementById(
+        "generateJadwalButton"
+    );
+
+const jadwalGenerationMessage =
+    document.getElementById(
+        "jadwalGenerationMessage"
+    );
+
 
 // ====================================
 // SEMBUNYIKAN SEMUA KONTEN
@@ -655,6 +665,7 @@ function tampilkanAbsensiDosen(data) {
 
                     <td>
                         ${
+                            absen.nama_mahasiswa ??
                             absen.mahasiswa_nama ??
                             absen.mahasiswa ??
                             "-"
@@ -731,7 +742,7 @@ async function loadJadwal() {
             table.innerHTML = `
 
                 <tr>
-                    <td colspan="7">
+                    <td colspan="8">
                         Belum ada data jadwal.
                     </td>
                 </tr>
@@ -779,9 +790,12 @@ async function loadJadwal() {
 
                     <td>
                         ${
-                            item.dosen_nama ??
-                            item.dosen ??
-                            "-"
+                            escapeHtml(
+                                [
+                                    item.dosen_nama ?? item.dosen,
+                                    ...(item.dosen_pendamping_nama ?? [])
+                                ].filter(Boolean).join(", ") || "-"
+                            )
                         }
                     </td>
 
@@ -791,6 +805,14 @@ async function loadJadwal() {
 
                     <td>
                         ${item.jam_selesai ?? "-"}
+                    </td>
+
+                    <td>
+                        ${
+                            item.jenis_pertemuan === "P"
+                                ? "Praktik (P)"
+                                : "Teori (K)"
+                        }
                     </td>
 
                 `;
@@ -810,6 +832,51 @@ async function loadJadwal() {
             error
         );
     }
+}
+
+if (generateJadwalButton) {
+    generateJadwalButton.addEventListener(
+        "click",
+        async function () {
+            generateJadwalButton.disabled = true;
+            jadwalGenerationMessage.textContent =
+                "Sedang membuat jadwal kelas 5...";
+
+            try {
+                const response = await fetch(
+                    `${API_URL}/jadwal/generate-kelas5/`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Token ${token}`
+                        }
+                    }
+                );
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.detail ||
+                        data.message ||
+                        "Jadwal otomatis gagal dibuat."
+                    );
+                }
+
+                jadwalGenerationMessage.textContent =
+                    `${data.message} Total jadwal: ${data.total_jadwal}.`;
+                await loadJadwal();
+            } catch (error) {
+                console.error(
+                    "Gagal membuat jadwal otomatis:",
+                    error
+                );
+                jadwalGenerationMessage.textContent =
+                    error.message || "Jadwal otomatis gagal dibuat.";
+            } finally {
+                generateJadwalButton.disabled = false;
+            }
+        }
+    );
 }
 
 
@@ -851,7 +918,7 @@ async function loadSesiAbsensi() {
             table.innerHTML = `
 
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         Belum ada sesi absensi.
                     </td>
                 </tr>
@@ -862,89 +929,50 @@ async function loadSesiAbsensi() {
         }
 
 
-        sesi.forEach(
-            function (item, index) {
+        const statusLabel = {
+            HADIR: "Hadir",
+            TERLAMBAT: "Telat",
+            ALFA: "Alfa"
+        };
+        let nomor = 0;
 
+        sesi.forEach(function (item) {
+            const daftarKehadiran =
+                item.daftar_kehadiran?.length
+                    ? item.daftar_kehadiran
+                    : [{
+                        nama: "Belum ada mahasiswa terdaftar",
+                        status: "-"
+                    }];
+
+            daftarKehadiran.forEach(function (mahasiswa) {
+                nomor += 1;
                 const row =
-                    document.createElement(
-                        "tr"
-                    );
-
+                    document.createElement("tr");
 
                 row.innerHTML = `
-
-                    <td>
-                        ${index + 1}
-                    </td>
-
-                    <td>
-                        ${
-                            item.mata_kuliah_nama ??
-                            item.jadwal_nama ??
-                            item.jadwal ??
-                            "-"
-                        }
-                    </td>
-
-                    <td>
-                        ${
-                            item.kelas_nama ??
-                            "-"
-                        }
-                    </td>
-
-                    <td>
-                        ${
-                            item.waktu_buka
-                            ?
-
-                            new Date(
-                                item.waktu_buka
-                            ).toLocaleString(
-                                "id-ID"
-                            )
-
-                            :
-
-                            "-"
-                        }
-                    </td>
-
-                    <td>
-                        ${
-                            item.waktu_tutup
-                            ?
-
-                            new Date(
-                                item.waktu_tutup
-                            ).toLocaleString(
-                                "id-ID"
-                            )
-
-                            :
-
-                            "-"
-                        }
-                    </td>
-
-                    <td>
-                        ${
-                            item.aktif
-                            ?
-                            "Aktif"
-                            :
-                            "Tidak Aktif"
-                        }
-                    </td>
-
+                    <td>${nomor}</td>
+                    <td>${escapeHtml(mahasiswa.nama)}</td>
+                    <td>${escapeHtml(
+                        item.mata_kuliah_nama ??
+                        item.jadwal_nama ??
+                        item.jadwal ??
+                        "-"
+                    )}</td>
+                    <td>${escapeHtml(item.kelas_nama ?? "-")}</td>
+                    <td>${item.waktu_buka
+                        ? new Date(item.waktu_buka).toLocaleString("id-ID")
+                        : "-"}</td>
+                    <td>${item.waktu_tutup
+                        ? new Date(item.waktu_tutup).toLocaleString("id-ID")
+                        : "-"}</td>
+                    <td>${statusLabel[mahasiswa.status] ??
+                        escapeHtml(mahasiswa.status ?? "-")}</td>
                 `;
 
-
-                table.appendChild(
-                    row
-                );
-            }
-        );
+                table.appendChild(row);
+            });
+        });
 
 
     } catch (error) {
@@ -955,6 +983,31 @@ async function loadSesiAbsensi() {
         );
     }
 }
+
+function escapeHtml(value) {
+    return String(value ?? "-").replace(
+        /[&<>"']/g,
+        character => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[character]
+    );
+}
+
+setInterval(
+    function () {
+        if (
+            sectionSesiAbsensi &&
+            sectionSesiAbsensi.style.display !== "none"
+        ) {
+            loadSesiAbsensi();
+        }
+    },
+    10000
+);
 
 
 // ====================================

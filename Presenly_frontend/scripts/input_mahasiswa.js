@@ -8,6 +8,44 @@ const message = document.getElementById("message");
 
 const token = localStorage.getItem("token");
 
+async function loadKelas() {
+    try {
+        const response = await fetch(`${API_URL}/kelas/`, {
+            headers: {
+                "Authorization": `Token ${token}`
+            }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.detail || "Daftar kelas gagal dimuat."
+            );
+        }
+
+        if (!Array.isArray(data)) {
+            throw new Error("Format daftar kelas dari server tidak valid.");
+        }
+
+        data.forEach(function (kelas) {
+            const option = document.createElement("option");
+            option.value = kelas.id;
+            option.textContent = kelas.nama_kelas;
+            kelasSelect.appendChild(option);
+        });
+
+        if (data.length === 0) {
+            throw new Error("Belum ada data kelas. Tambahkan kelas terlebih dahulu.");
+        }
+
+        simpanButton.disabled = false;
+    } catch (error) {
+        console.error("Gagal memuat daftar kelas:", error);
+        message.innerText = error.message || "Gagal memuat daftar kelas.";
+    }
+}
+
 
 // ===============================
 // CEK LOGIN
@@ -119,8 +157,11 @@ simpanButton.addEventListener("click", async function () {
             message.innerText =
                 data.npm?.[0] ||
                 data.email?.[0] ||
+                data.kelas?.[0] ||
+                data.nama?.[0] ||
                 data.detail ||
                 data.message ||
+                JSON.stringify(data) ||
                 "Gagal menyimpan mahasiswa.";
 
             simpanButton.disabled = false;
@@ -141,3 +182,7 @@ simpanButton.addEventListener("click", async function () {
     }
 
 });
+
+if (token) {
+    loadKelas();
+}

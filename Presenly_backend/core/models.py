@@ -29,11 +29,15 @@ class Dosen(models.Model):
 
     nidn = models.CharField(
         max_length=30,
-        unique=True
+        unique=True,
+        blank=True,
+        null=True
     )
 
     email = models.EmailField(
-        unique=True
+        unique=True,
+        blank=True,
+        null=True
     )
 
     def __str__(self):
@@ -67,6 +71,11 @@ class MataKuliah(models.Model):
 
 
 class Jadwal(models.Model):
+    JENIS_PERTEMUAN_CHOICES = [
+        ('K', 'Teori'),
+        ('P', 'Praktik'),
+    ]
+
     mata_kuliah = models.ForeignKey(
         MataKuliah,
         on_delete=models.CASCADE
@@ -79,10 +88,20 @@ class Jadwal(models.Model):
         Dosen,
         on_delete=models.CASCADE
     )
+    dosen_pendamping = models.ManyToManyField(
+        Dosen,
+        blank=True,
+        related_name='jadwal_pendamping'
+    )
 
     hari = models.CharField(max_length=20)
     jam_mulai = models.TimeField()
     jam_selesai = models.TimeField()
+    jenis_pertemuan = models.CharField(
+        max_length=1,
+        choices=JENIS_PERTEMUAN_CHOICES,
+        default='K'
+    )
 
     class Meta:
         verbose_name = "Jadwal"
@@ -133,7 +152,8 @@ class SesiAbsensi(models.Model):
 class RiwayatAbsensi(models.Model):
     STATUS_CHOICES = [
         ('HADIR', 'Hadir'),
-        ('TERLAMBAT', 'Terlambat'),
+        ('TERLAMBAT', 'Telat'),
+        ('ALFA', 'Alfa'),
     ]
 
     mahasiswa = models.ForeignKey(

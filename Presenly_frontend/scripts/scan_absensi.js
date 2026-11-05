@@ -4,6 +4,8 @@ const scanButton = document.getElementById("scanButton");
 
 const message = document.getElementById("message");
 const hasil = document.getElementById("hasil");
+let sedangMemindai = false;
+let resetHasilTimer;
 
 
 // ===============================
@@ -44,94 +46,106 @@ scanButton.addEventListener(
     "click",
     async function () {
 
-        message.innerText =
-            "Sedang memproses wajah...";
+        if (sedangMemindai) {
+            return;
+        }
 
+        if (!video.videoWidth || !video.videoHeight) {
+            message.innerText =
+                "Kamera belum siap. Tunggu sebentar lalu coba lagi.";
+            return;
+        }
+
+        sedangMemindai = true;
+        scanButton.disabled = true;
+        message.innerText = "Sedang memproses wajah...";
         hasil.innerHTML = "";
+        clearTimeout(resetHasilTimer);
 
+        try {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
 
-        canvas.width =
-            video.videoWidth;
+            const context = canvas.getContext("2d");
+            context.drawImage(
+                video,
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
 
-        canvas.height =
-            video.videoHeight;
+            const blob = await new Promise(resolve => {
+                canvas.toBlob(resolve, "image/jpeg", 0.9);
+            });
 
+            if (!blob) {
+                throw new Error("Gagal mengambil gambar dari kamera.");
+            }
 
-        const context =
-            canvas.getContext("2d");
+            const formData = new FormData();
+            formData.append("foto", blob, "scan.jpg");
 
-        context.drawImage(
-            video,
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-
-        canvas.toBlob(
-            async function (blob) {
-
-                const formData =
-                    new FormData();
-
-                formData.append(
-                    "foto",
-                    blob,
-                    "scan.jpg"
-                );
-
-
-                try {
-
-                    const response =
-                        await fetch(
-                            "http://127.0.0.1:8000/api/absensi/scan/",
-                            {
-                                method: "POST",
-                                body: formData
-                            }
-                        );
-
-
-                    const data =
-                        await response.json();
-
-
-                    if (response.ok) {
-
-                        message.innerText =
-                            "Absensi berhasil.";
-
-                        hasil.innerHTML = `
-                            <p>Nama: ${data.nama}</p>
-                            <p>NPM: ${data.npm}</p>
-                            <p>Kelas: ${data.kelas}</p>
-                            <p>Status: ${data.kehadiran}</p>
-                            <p>Distance: ${data.distance}</p>
-                        `;
-
-                    } else {
-
-                        message.innerText =
-                            data.message;
-
-                    }
-
-
-                } catch (error) {
-
-                    console.error(error);
-
-                    message.innerText =
-                        "Gagal terhubung ke server.";
-
+            const response = await fetch(
+                "http://127.0.0.1:8000/api/absensi/scan/",
+                {
+                    method: "POST",
+                    body: formData
                 }
+            );
+            const data = await response.json();
 
-            },
-            "image/jpeg",
-            0.9
-        );
+            if (!response.ok) {
+                message.innerText =
+                    data.message || "Absensi gagal diproses.";
+                return;
+            }
+
+            const statusLabel = {
+                HADIR: "Hadir",
+                TERLAMBAT: "Telat",
+                ALFA: "Alfa"
+            };
+
+            message.innerText =
+                data.kehadiran === "ALFA"
+                    ? "Absensi tercatat sebagai alfa."
+                    : "Absensi berhasil.";
+
+            hasil.innerHTML = `
+                <p>Nama: ${escapeHtml(data.nama)}</p>
+                <p>NPM: ${escapeHtml(data.npm)}</p>
+                <p>Kelas: ${escapeHtml(data.kelas)}</p>
+                <p>Status: ${statusLabel[data.kehadiran] ?? escapeHtml(data.kehadiran)}</p>
+                <p>Distance: ${escapeHtml(data.distance)}</p>
+            `;
+
+            resetHasilTimer = setTimeout(function () {
+                hasil.innerHTML = "";
+                message.innerText =
+                    "Siap untuk absensi mahasiswa berikutnya.";
+            }, 5000);
+        } catch (error) {
+            console.error(error);
+            message.innerText =
+                error.message || "Gagal terhubung ke server.";
+        } finally {
+            sedangMemindai = false;
+            scanButton.disabled = false;
+        }
 
     }
 );
+
+function escapeHtml(value) {
+    return String(value ?? "-").replace(
+        /[&<>"']/g,
+        character => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[character]
+    );
+}

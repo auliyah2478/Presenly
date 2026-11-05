@@ -253,6 +253,34 @@ section h2 {
     border-color: #2563eb;
 }
 
+.schedule-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+#generateJadwalButton {
+    padding: 11px 16px;
+    border: 0;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#generateJadwalButton:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+#jadwalGenerationMessage {
+    margin: 0;
+    color: #4b5563;
+    font-size: 13px;
+}
+
 
 /* =========================
    QUICK MENU
@@ -347,7 +375,6 @@ td {
 tbody tr:hover {
     background: #fafafa;
 }
-
 
 /* =========================
    STATUS
