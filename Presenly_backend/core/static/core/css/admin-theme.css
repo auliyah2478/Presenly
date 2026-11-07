@@ -1,0 +1,609 @@
+
+/* =========================================
+   PRESENLY ADMIN THEME
+   Color Palette:
+   Midnight Navy  #0E1F2F
+   Deep Slate Blue #26425A
+   Powder Blue    #86A8CF
+   Soft Lavender  #E1CBD7
+   Dusty Rose     #C38EB4
+   Cloud White    #F7F2F6
+========================================= */
+
+/* ---------- LIGHT THEME ---------- */
+
+:root {
+    color-scheme: light;
+
+    --background: #F7F2F6;
+    --surface: #FFFFFF;
+    --surface-soft: #F1E8EF;
+    --primary: #C38EB4;
+    --primary-hover: #AD739D;
+    --secondary: #86A8CF;
+    --navy: #0E1F2F;
+    --slate: #26425A;
+    --text: #263746;
+    --text-muted: #71808E;
+    --border: #E7DCE5;
+    --success: #6D9B83;
+    --danger: #C66F79;
+    --shadow: 0 8px 24px rgba(38, 66, 90, 0.07);
+}
+
+/* ---------- DARK THEME ---------- */
+
+body[data-theme="dark"] {
+    color-scheme: dark;
+
+    --background: #0E1F2F;
+    --surface: #1A3043;
+    --surface-soft: #26425A;
+    --primary: #C38EB4;
+    --primary-hover: #D3A5C5;
+    --secondary: #86A8CF;
+    --navy: #F7F2F6;
+    --slate: #DCE7F1;
+    --text: #F1EDF2;
+    --text-muted: #B5C1CE;
+    --border: #36536B;
+    --success: #91C5A7;
+    --danger: #E58D96;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* ---------- GLOBAL ---------- */
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    background: var(--background) !important;
+    color: var(--text) !important;
+    font-family: "Segoe UI", Arial, sans-serif;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--primary-hover);
+}
+
+#container {
+    background: var(--background);
+}
+
+/* ---------- HEADER ---------- */
+
+#header {
+    background: var(--navy) !important;
+    color: #F7F2F6 !important;
+    padding: 16px 28px;
+    min-height: 65px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+#branding {
+    display: flex;
+    align-items: center;
+}
+
+#site-name {
+    margin: 0;
+}
+
+#site-name a {
+    color: #F7F2F6 !important;
+    font-size: 23px;
+    font-weight: 750;
+    letter-spacing: 0.5px;
+}
+
+#user-tools {
+    color: #E1CBD7 !important;
+    font-size: 13px;
+}
+
+#user-tools a {
+    color: #C38EB4 !important;
+    font-weight: 600;
+}
+
+#user-tools a:hover {
+    color: #F7F2F6 !important;
+}
+
+/* ---------- THEME TOGGLE BUTTON ---------- */
+
+.presenly-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-left: 18px;
+    padding: 8px 14px;
+    border: 1px solid rgba(225, 203, 215, 0.35);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.10);
+    color: #F7F2F6;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.presenly-theme-toggle:hover {
+    background: rgba(195, 142, 180, 0.28);
+    border-color: #C38EB4;
+}
+
+/* ---------- BREADCRUMBS ---------- */
+
+div.breadcrumbs {
+    background: var(--surface-soft) !important;
+    color: var(--text-muted) !important;
+    padding: 13px 28px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+
+div.breadcrumbs a {
+    color: var(--slate) !important;
+    font-weight: 600;
+}
+
+/* ---------- MAIN CONTENT ---------- */
+
+#content {
+    padding: 28px;
+    background: var(--background);
+}
+
+#content h1 {
+    color: var(--navy);
+    font-size: 25px;
+    font-weight: 750;
+    margin-bottom: 22px;
+}
+
+#content-main {
+    width: 100%;
+}
+
+#content-related {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+}
+
+/* ---------- DASHBOARD WELCOME ---------- */
+
+.presenly-dashboard {
+    margin-bottom: 28px;
+}
+
+.presenly-welcome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 30px 34px;
+    margin-bottom: 24px;
+    border-radius: 20px;
+    background: linear-gradient(120deg, #26425A, #0E1F2F);
+    color: #F7F2F6;
+    box-shadow: var(--shadow);
+}
+
+.presenly-welcome h1 {
+    color: #F7F2F6 !important;
+    font-size: 28px !important;
+    margin: 9px 0 !important;
+}
+
+.presenly-welcome p {
+    color: #E1CBD7;
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.7;
+}
+
+.presenly-eyebrow {
+    color: #C38EB4;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.presenly-welcome-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 76px;
+    height: 76px;
+    min-width: 76px;
+    border-radius: 22px;
+    background: rgba(195, 142, 180, 0.2);
+    color: #E1CBD7;
+    font-size: 38px;
+}
+
+/* ---------- STATISTICS CARDS ---------- */
+
+.presenly-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.presenly-stat-card {
+    padding: 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.presenly-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(38, 66, 90, 0.12);
+}
+
+.presenly-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    margin-bottom: 17px;
+    border-radius: 13px;
+    background: var(--surface-soft);
+    color: var(--primary);
+    font-size: 23px;
+}
+
+.presenly-stat-label {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.presenly-stat-number {
+    color: var(--navy);
+    font-size: 32px;
+    font-weight: 800;
+    margin: 7px 0;
+}
+
+.presenly-stat-description {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+/* ---------- ACTIVE SESSION CARD ---------- */
+
+.presenly-session-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 26px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--secondary);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.presenly-session-label {
+    color: var(--secondary);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.presenly-session-card h3 {
+    color: var(--navy);
+    font-size: 17px;
+    margin: 7px 0;
+}
+
+.presenly-session-card p {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin: 0;
+}
+
+.presenly-session-number {
+    color: var(--secondary);
+    font-size: 36px;
+    font-weight: 800;
+}
+
+/* ---------- MODULES / TABLES ---------- */
+
+.module,
+#changelist,
+.inline-group {
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 15px !important;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.module h2,
+.module caption,
+.inline-group h2 {
+    background: var(--slate) !important;
+    color: #FFFFFF !important;
+    padding: 13px 17px !important;
+    font-size: 14px !important;
+    font-weight: 700;
+}
+
+.module table {
+    width: 100%;
+}
+
+.module th,
+.module td,
+#changelist table th,
+#changelist table td {
+    border-color: var(--border) !important;
+    color: var(--text);
+    padding: 12px 14px;
+}
+
+#changelist table thead th {
+    background: var(--surface-soft);
+}
+
+#changelist table tbody tr:nth-child(even) {
+    background: var(--surface-soft);
+}
+
+#changelist table tbody tr:hover {
+    background: rgba(134, 168, 207, 0.15);
+}
+
+#changelist-filter {
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+}
+
+#changelist-filter h2 {
+    color: var(--navy);
+}
+
+#changelist-filter li.selected a {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ---------- FORMS ---------- */
+
+.form-row {
+    border-bottom: 1px solid var(--border) !important;
+}
+
+fieldset {
+    border: 1px solid var(--border) !important;
+    border-radius: 13px;
+    background: var(--surface);
+}
+
+fieldset h2 {
+    border-radius: 12px 12px 0 0;
+}
+
+label {
+    color: var(--text);
+}
+
+input,
+textarea,
+select,
+.vTextField,
+.vLargeTextField {
+    background: var(--surface) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    padding: 9px 11px !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--secondary) !important;
+    box-shadow: 0 0 0 3px rgba(134, 168, 207, 0.18);
+}
+
+.help,
+.helptext {
+    color: var(--text-muted) !important;
+}
+
+/* ---------- BUTTONS ---------- */
+
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input,
+a.button,
+button {
+    border-radius: 9px !important;
+    font-weight: 650 !important;
+    transition: 0.2s ease;
+}
+
+.button.default,
+input[type="submit"].default,
+.submit-row input.default {
+    background: var(--primary) !important;
+    color: #FFFFFF !important;
+    border: none !important;
+}
+
+.button.default:hover,
+input[type="submit"].default:hover,
+.submit-row input.default:hover {
+    background: var(--primary-hover) !important;
+}
+
+.button,
+a.button {
+    background: var(--slate);
+    color: #FFFFFF !important;
+    border: none;
+}
+
+.button:hover,
+a.button:hover {
+    opacity: 0.88;
+}
+
+.deletelink,
+.deletelink-box a {
+    color: var(--danger) !important;
+}
+
+/* ---------- MESSAGES ---------- */
+
+ul.messagelist li {
+    border-radius: 10px;
+    margin: 10px 0;
+    padding: 12px 16px;
+    box-shadow: var(--shadow);
+}
+
+ul.messagelist li.success {
+    background: #E4F0E8;
+    color: #315E43;
+}
+
+ul.messagelist li.warning {
+    background: #F8EEDB;
+    color: #80602A;
+}
+
+ul.messagelist li.error {
+    background: #F7E3E5;
+    color: #8B3F4A;
+}
+
+/* ---------- PAGINATION ---------- */
+
+.paginator {
+    color: var(--text-muted);
+    padding: 15px;
+}
+
+.paginator a {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ---------- FOOTER ---------- */
+
+#footer {
+    padding: 20px;
+}
+
+/* ---------- DARK MODE OVERRIDES ---------- */
+
+body[data-theme="dark"] #header {
+    background: #091722 !important;
+}
+
+body[data-theme="dark"] .module,
+body[data-theme="dark"] #changelist,
+body[data-theme="dark"] .inline-group,
+body[data-theme="dark"] fieldset,
+body[data-theme="dark"] #content-related {
+    background: var(--surface) !important;
+    border-color: var(--border) !important;
+}
+
+body[data-theme="dark"] .module h2,
+body[data-theme="dark"] .module caption,
+body[data-theme="dark"] .inline-group h2 {
+    background: #26425A !important;
+    color: #F7F2F6 !important;
+}
+
+body[data-theme="dark"] #changelist table thead th,
+body[data-theme="dark"] #changelist table tbody tr:nth-child(even) {
+    background: #203A50;
+}
+
+body[data-theme="dark"] #changelist table tbody tr:hover {
+    background: #2B4961;
+}
+
+body[data-theme="dark"] #changelist-filter {
+    background: var(--surface);
+}
+
+body[data-theme="dark"] .object-tools a {
+    background: var(--primary);
+    color: #FFFFFF !important;
+}
+
+body[data-theme="dark"] .selector-chosen h2 {
+    background: #26425A !important;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 1000px) {
+    .presenly-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    #content {
+        padding: 16px;
+    }
+
+    #header {
+        padding: 14px 16px;
+        flex-wrap: wrap;
+    }
+
+    .presenly-welcome {
+        padding: 22px;
+    }
+
+    .presenly-welcome h1 {
+        font-size: 22px !important;
+    }
+
+    .presenly-welcome-icon {
+        display: none;
+    }
+
+    .presenly-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .presenly-session-card {
+        padding: 18px;
+    }
+}
+

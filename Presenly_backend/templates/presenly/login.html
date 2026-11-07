@@ -1,0 +1,198 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0E1F2F">
+
+    <title>Login | Presenly</title>
+
+    <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+</head>
+
+<body>
+
+    <main class="login-page">
+
+        <section class="login-decoration">
+
+            <a href="/" class="brand">
+                <span class="brand-icon">P</span>
+                <span>presenly<span class="brand-dot">.</span></span>
+            </a>
+
+            <div class="decoration-content">
+
+                <span class="decoration-label">
+                    SMART ATTENDANCE SYSTEM
+                </span>
+
+                <h1>
+                    Manage Attendance.
+                    <span>Smarter Together.</span>
+                </h1>
+
+                <p>
+                    Satu platform untuk mengelola aktivitas akademik
+                    dan presensi mahasiswa secara modern, praktis,
+                    dan terintegrasi.
+                </p>
+
+                <div class="login-illustration">
+                    <div class="illustration-circle">
+                        <div class="illustration-inner">
+                            <span>P</span>
+                        </div>
+                    </div>
+
+                    <div class="illustration-orbit orbit-one"></div>
+                    <div class="illustration-orbit orbit-two"></div>
+                    <div class="illustration-dot dot-one"></div>
+                    <div class="illustration-dot dot-two"></div>
+                </div>
+
+            </div>
+
+            <div class="decoration-footer">
+                Smart Technology for Better Education
+            </div>
+
+        </section>
+
+
+        <section class="login-content">
+
+            <div class="login-container">
+
+                <a href="/" class="mobile-brand">
+                    <span class="brand-icon">P</span>
+                    <span>presenly<span class="brand-dot">.</span></span>
+                </a>
+
+                <div class="login-heading">
+
+                    <span class="welcome-label">
+                        WELCOME BACK
+                    </span>
+
+                    <h2>Selamat Datang!</h2>
+
+                    <p>
+                        Silakan masuk menggunakan akun Admin
+                        atau Dosen untuk melanjutkan.
+                    </p>
+
+                </div>
+
+
+                {% if error %}
+                <div class="login-error">
+                    <span class="error-icon">!</span>
+                    <span>{{ error }}</span>
+                </div>
+                {% endif %}
+
+
+                <form method="POST" action="{% url 'login' %}">
+
+                    {% csrf_token %}
+
+                    <div class="form-group">
+
+                        <label for="username">
+                            Username
+                        </label>
+
+                        <div class="input-wrapper">
+                            <span class="input-icon">♙</span>
+
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                placeholder="Masukkan username"
+                                autocomplete="username"
+                                required
+                                autofocus
+                            >
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="input-wrapper">
+                            <span class="input-icon">♙</span>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Masukkan password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="passwordToggle"
+                                aria-label="Tampilkan password"
+                            >
+                                Lihat
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                    <button type="submit" class="login-button">
+                        <span>Masuk ke Presenly</span>
+                        <span class="button-arrow">→</span>
+                    </button>
+
+                </form>
+
+
+                <div class="login-divider">
+                    <span></span>
+                    <small>SECURE ACCESS</small>
+                    <span></span>
+                </div>
+
+
+                <div class="security-note">
+                    <span class="security-icon">◇</span>
+
+                    <p>
+                        Akses terlindungi dengan sistem autentikasi
+                        Presenly. Pastikan akun kamu terjaga.
+                    </p>
+                </div>
+
+
+                <a href="/" class="back-home">
+                    ← Kembali ke halaman utama
+                </a>
+
+            </div>
+
+            <footer class="login-footer">
+                © 2026 Presenly. All rights reserved.
+            </footer>
+
+        </section>
+
+    </main>
+
+    <script src="{% static 'core/js/login.js' %}" defer></script>
+
+</body>
+</html>

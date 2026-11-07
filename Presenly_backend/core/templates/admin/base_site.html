@@ -1,0 +1,31 @@
+
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ title }} | Presenly Admin
+{% endblock %}
+
+{% block branding %}
+<div id="site-name">
+    <a href="{% url 'admin:index' %}">
+        Presenly
+    </a>
+</div>
+{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link
+        rel="stylesheet"
+        href="{% static 'core/css/admin-theme.css' %}"
+    >
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script
+        src="{% static 'core/js/admin-theme.js' %}"
+        defer
+    ></script>
+{% endblock %}

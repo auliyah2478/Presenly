@@ -24,3 +24,18 @@ Presenly_backend/test_foto/
 # Model / weight AI
 *.h5
 .deepface/
+
+# Semua database SQLite dan file backup
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
+
+# File media dan upload mahasiswa
+Presenly_backend/media/
+
+# File log
+*.log
+
+# Django hasil generate
+Presenly_backend/staticfiles/

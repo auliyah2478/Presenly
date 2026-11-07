@@ -1,0 +1,155 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hapus Kelas | Presenly</title>
+    <link rel="stylesheet" href="{% static 'core/css/section.css' %}">
+</head>
+<body>
+
+<div class="dashboard-layout">
+
+    <aside class="sidebar">
+        <a href="/dashboard/" class="brand">
+            <span class="brand-icon">P</span>
+            <span>Presenly</span>
+        </a>
+
+        <div class="sidebar-label">MENU UTAMA</div>
+
+        <nav class="sidebar-nav">
+            <a href="/dashboard/" class="nav-item">
+                <span class="nav-icon">▦</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="/dashboard/mahasiswa/" class="nav-item">
+                <span class="nav-icon">♙</span>
+                <span>Data Mahasiswa</span>
+            </a>
+            <a href="/dashboard/dosen/" class="nav-item">
+                <span class="nav-icon">♧</span>
+                <span>Data Dosen</span>
+            </a>
+            <a href="/dashboard/jadwal/" class="nav-item">
+                <span class="nav-icon">▤</span>
+                <span>Jadwal Kuliah</span>
+            </a>
+            <a href="/dashboard/kelas/" class="nav-item active">
+                <span class="nav-icon">▣</span>
+                <span>Data Kelas</span>
+            </a>
+            <a href="/dashboard/mata-kuliah/" class="nav-item">
+                <span class="nav-icon">▧</span>
+                <span>Mata Kuliah</span>
+            </a>
+            <a href="/dashboard/absensi/" class="nav-item">
+                <span class="nav-icon">✓</span>
+                <span>Riwayat Absensi</span>
+            </a>
+        </nav>
+
+        <form method="POST" action="{% url 'logout' %}" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="logout-button">
+                <span class="nav-icon">↪</span>
+                <span>Logout</span>
+            </button>
+        </form>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-label">SISTEM</div>
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <span>Sistem Presenly Aktif</span>
+            </div>
+            <div class="sidebar-footer">Presenly © 2026</div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <div class="breadcrumb">
+                    Dashboard / Data Kelas / Hapus Kelas
+                </div>
+                <h1>Hapus Kelas</h1>
+            </div>
+
+            <div class="profile-area">
+                <div class="profile-avatar">
+                    {{ nama_pengguna|slice:":1"|upper }}
+                </div>
+                <div class="profile-info">
+                    <strong>{{ nama_pengguna }}</strong>
+                    <span>{{ role_pengguna }}</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="page-intro">
+            <div>
+                <span class="eyebrow">PRESENLY MANAGEMENT SYSTEM</span>
+                <h2>Konfirmasi Penghapusan</h2>
+                <p>Periksa kembali data kelas sebelum melanjutkan.</p>
+            </div>
+            <div class="intro-decoration">P</div>
+        </section>
+
+        <section class="data-panel student-form-panel">
+
+            <div class="data-heading">
+                <div>
+                    <h3>Hapus Data Kelas</h3>
+                    <p>Apakah Anda yakin ingin menghapus kelas berikut?</p>
+                </div>
+            </div>
+
+            <div class="student-form">
+
+                <div class="form-field">
+                    <label>Nama Kelas</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        value="{{ kelas.nama_kelas }}"
+                        readonly
+                    >
+                </div>
+
+                <p class="field-help">
+                    Data kelas yang masih digunakan oleh mahasiswa atau jadwal
+                    tidak dapat dihapus.
+                </p>
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="form-actions">
+
+                        <a href="/dashboard/kelas/" class="cancel-button">Batal</a>
+
+                        <button type="submit" class="delete-button">
+                            Ya, Hapus Kelas
+                        </button>
+
+                    </div>
+                </form>
+
+            </div>
+
+        </section>
+
+        <footer class="main-footer">
+            <span>Presenly — Smart Attendance System</span>
+            <span>Designed for better attendance management.</span>
+        </footer>
+
+    </main>
+</div>
+
+</body>
+</html>

@@ -257,85 +257,113 @@ def tentukan_status_kehadiran(sekarang, sesi):
     tanggal_sesi = timezone.localtime(
         sesi.waktu_buka
     ).date()
-    jam_mulai_kelas = datetime.combine(
-        tanggal_sesi,
-        sesi.jadwal.jam_mulai
-    )
+
     jam_mulai_kelas = timezone.make_aware(
-        jam_mulai_kelas,
+        datetime.combine(
+            tanggal_sesi,
+            sesi.jadwal.jam_mulai
+        ),
         timezone.get_current_timezone()
     )
-    keterlambatan = timezone.localtime(sekarang) - jam_mulai_kelas
 
-    if keterlambatan <= timedelta(0):
-        return 'HADIR'
-    if keterlambatan <= timedelta(minutes=10):
-        return 'TERLAMBAT'
-    return 'ALFA'
+    batas_hadir = jam_mulai_kelas + timedelta(minutes=16)
+
+    sekarang_local = timezone.localtime(sekarang)
+
+    if sekarang_local < batas_hadir:
+        return "HADIR"
+
+    return "TERLAMBAT"
 
 
 def get_or_create_sesi_absensi(mahasiswa, sekarang):
     sekarang_local = timezone.localtime(sekarang)
-    hari_indonesia = {
-        'Monday': 'Senin',
-        'Tuesday': 'Selasa',
-        'Wednesday': 'Rabu',
-        'Thursday': 'Kamis',
-        'Friday': 'Jumat',
-        'Saturday': 'Sabtu',
-        'Sunday': 'Minggu',
-    }[sekarang_local.strftime('%A')]
 
-    jadwal = (
-        Jadwal.objects
-        .filter(
+    daftar_hari = [
+        "Senin",
+        "Selasa",
+        "Rabu",
+        "Kamis",
+        "Jumat",
+        "Sabtu",
+        "Minggu",
+    ]
+
+    hari_ini = daftar_hari[sekarang_local.weekday()]
+
+    if hari_ini == "Jumat":
+        jadwal_hari_ini = Jadwal.objects.filter(
+            hari__in=["Jumat", "Jum'at", "Jum’at"],
             kelas_id=mahasiswa.kelas_id,
-            hari__iexact=hari_indonesia,
-            jam_mulai__lte=sekarang_local.time(),
-            jam_selesai__gte=sekarang_local.time(),
         )
-        .select_related(
-            'mata_kuliah',
-            'kelas',
-            'dosen',
+    else:
+        jadwal_hari_ini = Jadwal.objects.filter(
+            hari__iexact=hari_ini,
+            kelas_id=mahasiswa.kelas_id,
         )
-        .order_by('jam_mulai')
-        .first()
-    )
 
-    if jadwal is None:
-        return None
+    jadwal_hari_ini = jadwal_hari_ini.select_related(
+        "mata_kuliah",
+        "kelas",
+        "dosen",
+    ).order_by("jam_mulai")
 
-    waktu_buka = timezone.make_aware(
-        datetime.combine(
-            sekarang_local.date(),
-            jadwal.jam_mulai,
-        ),
-        timezone.get_current_timezone(),
-    )
-    waktu_tutup = timezone.make_aware(
-        datetime.combine(
-            sekarang_local.date(),
-            jadwal.jam_selesai,
-        ),
-        timezone.get_current_timezone(),
-    )
-    sesi, _ = SesiAbsensi.objects.get_or_create(
-        jadwal=jadwal,
-        waktu_buka=waktu_buka,
-        defaults={
-            'waktu_tutup': waktu_tutup,
-            'aktif': True,
-        },
-    )
+    for jadwal in jadwal_hari_ini:
 
-    if not sesi.aktif or sesi.waktu_tutup != waktu_tutup:
-        sesi.aktif = True
-        sesi.waktu_tutup = waktu_tutup
-        sesi.save(update_fields=['aktif', 'waktu_tutup'])
+        jam_mulai = timezone.make_aware(
+            datetime.combine(
+                sekarang_local.date(),
+                jadwal.jam_mulai,
+            ),
+            timezone.get_current_timezone(),
+        )
 
-    return sesi
+        jam_selesai = timezone.make_aware(
+            datetime.combine(
+                sekarang_local.date(),
+                jadwal.jam_selesai,
+            ),
+            timezone.get_current_timezone(),
+        )
 
+        waktu_buka = jam_mulai - timedelta(minutes=5)
+
+        if sekarang_local >= jam_selesai:
+            SesiAbsensi.objects.filter(
+                jadwal=jadwal,
+                waktu_buka=waktu_buka,
+                aktif=True,
+            ).update(aktif=False)
+
+            continue
+
+        if waktu_buka <= sekarang_local < jam_selesai:
+
+            sesi, _ = SesiAbsensi.objects.get_or_create(
+                jadwal=jadwal,
+                waktu_buka=waktu_buka,
+                defaults={
+                    "waktu_tutup": jam_selesai,
+                    "aktif": True,
+                },
+            )
+
+            if (
+                not sesi.aktif
+                or sesi.waktu_tutup != jam_selesai
+            ):
+                sesi.aktif = True
+                sesi.waktu_tutup = jam_selesai
+                sesi.save(
+                    update_fields=[
+                        "aktif",
+                        "waktu_tutup",
+                    ]
+                )
+
+            return sesi
+
+    return None
 
 # ==========================================
 # SCAN ABSENSI

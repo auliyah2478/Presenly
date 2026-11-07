@@ -1,0 +1,285 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }} | Presenly</title>
+    <link rel="stylesheet" href="{% static 'core/css/section.css' %}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 40px 20px;
+            background: #F7F2F6;
+            font-family: Arial, sans-serif;
+            color: #0E1F2F;
+        }
+
+        .form-page {
+            width: 100%;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .form-top {
+            margin-bottom: 22px;
+        }
+
+        .back-link {
+            color: #557CA7;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .back-link:hover {
+            color: #C38EB4;
+        }
+
+        .form-panel {
+            padding: 35px;
+            background: #FFFFFF;
+            border: 1px solid #E9DFE7;
+            border-radius: 16px;
+            box-shadow: 0 12px 35px rgba(14, 31, 47, 0.06);
+        }
+
+        .form-heading {
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #EEE7ED;
+        }
+
+        .form-heading h1 {
+            margin: 0 0 9px;
+            font-size: 23px;
+        }
+
+        .form-heading p {
+            margin: 0;
+            color: #84909D;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .form-field {
+            margin-bottom: 21px;
+        }
+
+        .form-field > label {
+            display: block;
+            margin-bottom: 9px;
+            color: #26425A;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .form-control {
+            width: 100%;
+            min-height: 44px;
+            padding: 11px 13px;
+            border: 1px solid #DCE3EA;
+            border-radius: 8px;
+            background: #FFFFFF;
+            color: #26425A;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #86A8CF;
+            box-shadow: 0 0 0 3px rgba(134, 168, 207, 0.15);
+        }
+
+        .checkbox-group {
+            padding: 14px;
+            border: 1px solid #DCE3EA;
+            border-radius: 8px;
+            background: #FFFFFF;
+        }
+
+        .checkbox-group ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .checkbox-group li {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #536477;
+            font-size: 12px;
+        }
+
+        .checkbox-group input {
+            accent-color: #C38EB4;
+            width: 15px;
+            height: 15px;
+        }
+
+        .field-help {
+            display: block;
+            margin-top: 7px;
+            color: #929CAA;
+            font-size: 10px;
+        }
+
+        .field-error,
+        .form-error {
+            display: block;
+            margin-top: 7px;
+            color: #BD6475;
+            font-size: 11px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 22px;
+            border-top: 1px solid #EEE7ED;
+        }
+
+        .cancel-button,
+        .save-button {
+            min-height: 43px;
+            padding: 0 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .cancel-button {
+            background: #EAF0F6;
+            color: #557CA7;
+        }
+
+        .save-button {
+            background: #C38EB4;
+            color: #FFFFFF;
+        }
+
+        .save-button:hover {
+            background: #A978A0;
+        }
+
+        @media (max-width: 600px) {
+            .form-panel {
+                padding: 23px 18px;
+            }
+
+            .form-actions {
+                flex-direction: column-reverse;
+            }
+
+            .cancel-button,
+            .save-button {
+                width: 100%;
+            }
+
+            .checkbox-group ul {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="form-page">
+
+        <div class="form-top">
+            <a href="{% url 'data_jadwal' %}" class="back-link">
+                ← Kembali ke Jadwal Kuliah
+            </a>
+        </div>
+
+        <section class="form-panel">
+
+            <div class="form-heading">
+                <h1>{{ page_title }}</h1>
+                <p>
+                    Lengkapi informasi perkuliahan, dosen pengajar,
+                    kelas, serta waktu pelaksanaan.
+                </p>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-error">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                {% for field in form %}
+                    <div class="form-field">
+
+                        <label for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                            {% if field.field.required %}
+                                *
+                            {% else %}
+                                <span style="font-weight: normal; color: #929CAA;">
+                                    (Opsional)
+                                </span>
+                            {% endif %}
+                        </label>
+
+                        {% if field.name == "dosen_pendamping" %}
+                            <div class="checkbox-group">
+                                {{ field }}
+                            </div>
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+
+                        {% if field.help_text %}
+                            <small class="field-help">
+                                {{ field.help_text }}
+                            </small>
+                        {% endif %}
+
+                        {% for error in field.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+                {% endfor %}
+
+                <div class="form-actions">
+                    <a href="{% url 'data_jadwal' %}" class="cancel-button">
+                        Batal
+                    </a>
+
+                    <button type="submit" class="save-button">
+                        {{ form_action }}
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,234 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Presenly</title>
+    <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
+</head>
+<body>
+
+<div class="dashboard-layout">
+
+    <aside class="sidebar">
+        <a href="/" class="brand">
+            <span class="brand-icon">P</span>
+            <span>Presenly</span>
+        </a>
+
+        <div class="sidebar-label">MENU UTAMA</div>
+
+        <nav class="sidebar-nav">
+            <a href="/dashboard/" class="nav-item active">
+                <span class="nav-icon">▦</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/dashboard/mahasiswa/" class="nav-item">
+                <span class="nav-icon">♙</span>
+                <span>Data Mahasiswa</span>
+            </a>
+
+            <a href="/dashboard/dosen/" class="nav-item">
+                <span class="nav-icon">♧</span>
+                <span>Data Dosen</span>
+            </a>
+
+            <a href="/dashboard/jadwal/" class="nav-item">
+                <span class="nav-icon">▤</span>
+                <span>Jadwal Kuliah</span>
+            </a>
+
+            <a href="/dashboard/kelas/" class="nav-item">
+                <span class="nav-icon">▣</span>
+                <span>Data Kelas</span>
+            </a>
+
+            <a href="/dashboard/mata-kuliah/" class="nav-item">
+                <span class="nav-icon">▧</span>
+                <span>Mata Kuliah</span>
+            </a>
+
+            <a href="/dashboard/absensi/" class="nav-item">
+                <span class="nav-icon">✓</span>
+                <span>Riwayat Absensi</span>
+            </a>
+        </nav>
+
+        <form method="POST" action="{% url 'logout' %}" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="logout-button">
+                <span class="nav-icon">↪</span>
+                <span>Logout</span>
+            </button>
+        </form>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-label">SISTEM</div>
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+                <span>Sistem Presenly Aktif</span>
+            </div>
+            <div class="sidebar-footer">Presenly © 2026</div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <div class="breadcrumb">Halaman / Dashboard</div>
+                <h1>Dashboard Overview</h1>
+            </div>
+
+            <div class="profile-area">
+                <div class="profile-avatar">
+                    {{ nama_pengguna|slice:":1"|upper }}
+                </div>
+                <div class="profile-info">
+                    <strong>{{ nama_pengguna }}</strong>
+                    <span>{{ role_pengguna }}</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="welcome-section">
+            <div>
+                <span class="eyebrow">PRESENLY ATTENDANCE SYSTEM</span>
+                <h2>Selamat datang, {{ nama_pengguna }}!</h2>
+                <p>
+                    Pantau dan kelola aktivitas presensi perkuliahan
+                    dengan lebih mudah melalui Presenly.
+                </p>
+            </div>
+            <div class="welcome-decoration">P</div>
+        </section>
+
+        <section class="section-heading">
+            <div>
+                <h2>Ringkasan Data</h2>
+                <p>Informasi keseluruhan sistem presensi.</p>
+            </div>
+        </section>
+
+        <section class="stats-grid">
+
+            <article class="stat-card">
+                <div class="stat-top">
+                    <span>Total Mahasiswa</span>
+                    <span class="stat-icon rose">♙</span>
+                </div>
+                <strong>{{ total_mahasiswa }}</strong>
+                <small>Mahasiswa terdaftar</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-top">
+                    <span>Total Dosen</span>
+                    <span class="stat-icon blue">♧</span>
+                </div>
+                <strong>{{ total_dosen }}</strong>
+                <small>Dosen terdaftar</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-top">
+                    <span>Total Kelas</span>
+                    <span class="stat-icon lavender">▣</span>
+                </div>
+                <strong>{{ total_kelas }}</strong>
+                <small>Kelas tersedia</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-top">
+                    <span>Jadwal Kuliah</span>
+                    <span class="stat-icon navy">▤</span>
+                </div>
+                <strong>{{ total_jadwal }}</strong>
+                <small>Jadwal terdaftar</small>
+            </article>
+
+        </section>
+
+        <section class="content-grid">
+
+            <article class="panel attendance-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Aktivitas Presensi</h3>
+                        <p>Ringkasan aktivitas sistem presensi.</p>
+                    </div>
+                    <span class="live-badge">
+                        <span class="status-dot"></span>
+                        ONLINE
+                    </span>
+                </div>
+
+                <div class="attendance-summary">
+                    <div>
+                        <span>Total Riwayat Absensi</span>
+                        <strong>{{ total_absensi }}</strong>
+                    </div>
+                    <div>
+                        <span>Sesi Absensi Aktif</span>
+                        <strong>{{ sesi_aktif }}</strong>
+                    </div>
+                </div>
+
+                <a href="/dashboard/absensi/" class="text-link">
+                    Lihat riwayat absensi →
+                </a>
+            </article>
+
+            <article class="panel quick-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Akses Cepat</h3>
+                        <p>Kelola data sistem Presenly.</p>
+                    </div>
+                </div>
+
+                <a href="/dashboard/mahasiswa/" class="quick-link">
+                    <span class="quick-icon rose">♙</span>
+                    <span>
+                        <strong>Data Mahasiswa</strong>
+                        <small>Kelola data mahasiswa</small>
+                    </span>
+                    <span class="arrow">→</span>
+                </a>
+
+                <a href="/dashboard/jadwal/" class="quick-link">
+                    <span class="quick-icon blue">▤</span>
+                    <span>
+                        <strong>Jadwal Kuliah</strong>
+                        <small>Kelola jadwal perkuliahan</small>
+                    </span>
+                    <span class="arrow">→</span>
+                </a>
+
+                <a href="/dashboard/absensi/" class="quick-link">
+                    <span class="quick-icon lavender">✓</span>
+                    <span>
+                        <strong>Riwayat Absensi</strong>
+                        <small>Pantau catatan kehadiran</small>
+                    </span>
+                    <span class="arrow">→</span>
+                </a>
+            </article>
+
+        </section>
+
+        <footer class="main-footer">
+            <span>Presenly — Smart Attendance System</span>
+            <span>Designed for better attendance management.</span>
+        </footer>
+
+    </main>
+</div>
+
+</body>
+</html>

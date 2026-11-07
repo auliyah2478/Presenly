@@ -1,0 +1,194 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hapus Dosen | Presenly</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: #F7F2F6;
+            font-family: Arial, sans-serif;
+            color: #0E1F2F;
+        }
+
+        .delete-card {
+            width: 100%;
+            max-width: 480px;
+            padding: 38px;
+            background: #FFFFFF;
+            border: 1px solid #E9DFE7;
+            border-radius: 18px;
+            box-shadow: 0 15px 45px rgba(14, 31, 47, 0.09);
+            text-align: center;
+        }
+
+        .delete-icon {
+            width: 66px;
+            height: 66px;
+            margin: 0 auto 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #F9EDEF;
+            color: #BD6475;
+            font-size: 30px;
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            font-size: 23px;
+        }
+
+        .description {
+            margin: 0 0 24px;
+            color: #788493;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .dosen-info {
+            margin-bottom: 25px;
+            padding: 17px;
+            border-radius: 11px;
+            background: #F7F2F6;
+            text-align: left;
+        }
+
+        .dosen-info p {
+            margin: 8px 0;
+            color: #536477;
+            font-size: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .dosen-info strong {
+            color: #0E1F2F;
+        }
+
+        .warning {
+            margin-bottom: 25px;
+            color: #BD6475;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .delete-actions {
+            display: flex;
+            gap: 11px;
+        }
+
+        .delete-actions a,
+        .delete-actions button {
+            flex: 1;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 9px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .cancel-button {
+            background: #EAF0F6;
+            color: #557CA7;
+        }
+
+        .cancel-button:hover {
+            background: #DCE7F1;
+        }
+
+        .confirm-delete-button {
+            background: #BD6475;
+            color: #FFFFFF;
+        }
+
+        .confirm-delete-button:hover {
+            background: #A94F62;
+        }
+
+        @media (max-width: 480px) {
+            .delete-card {
+                padding: 27px 21px;
+            }
+
+            .delete-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="delete-card">
+
+        <div class="delete-icon">!</div>
+
+        <h1>Hapus Data Dosen?</h1>
+
+        <p class="description">
+            Apakah kamu yakin ingin menghapus data dosen berikut?
+        </p>
+
+        <div class="dosen-info">
+            <p>
+                <strong>Nama:</strong>
+                {{ dosen.nama }}
+            </p>
+
+            <p>
+                <strong>NIDN:</strong>
+                {{ dosen.nidn|default:"Belum diisi" }}
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                {{ dosen.email|default:"Belum diisi" }}
+            </p>
+
+            <p>
+                <strong>Akun Pengguna:</strong>
+                {{ dosen.user.username|default:"Belum terhubung" }}
+            </p>
+        </div>
+
+        <p class="warning">
+            Perhatian: Data dosen akan dihapus. Akun pengguna Django yang
+            terhubung tidak ikut dihapus oleh tindakan ini.
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="delete-actions">
+                <a href="{% url 'data_dosen' %}" class="cancel-button">
+                    Batal
+                </a>
+
+                <button type="submit" class="confirm-delete-button">
+                    Ya, Hapus Data
+                </button>
+            </div>
+        </form>
+
+    </main>
+</body>
+</html>

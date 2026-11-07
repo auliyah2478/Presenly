@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.conf import settings
 
@@ -23,9 +24,7 @@ class Dosen(models.Model):
         related_name="dosen_profile"
     )
 
-    nama = models.CharField(
-        max_length=150
-    )
+    nama = models.CharField(max_length=150)
 
     nidn = models.CharField(
         max_length=30,
@@ -80,14 +79,17 @@ class Jadwal(models.Model):
         MataKuliah,
         on_delete=models.CASCADE
     )
+
     kelas = models.ForeignKey(
         Kelas,
         on_delete=models.CASCADE
     )
+
     dosen = models.ForeignKey(
         Dosen,
         on_delete=models.CASCADE
     )
+
     dosen_pendamping = models.ManyToManyField(
         Dosen,
         blank=True,
@@ -97,6 +99,7 @@ class Jadwal(models.Model):
     hari = models.CharField(max_length=20)
     jam_mulai = models.TimeField()
     jam_selesai = models.TimeField()
+
     jenis_pertemuan = models.CharField(
         max_length=1,
         choices=JENIS_PERTEMUAN_CHOICES,
@@ -133,7 +136,7 @@ class FaceEmbedding(models.Model):
 class SesiAbsensi(models.Model):
     jadwal = models.ForeignKey(
         Jadwal,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='sesi_absensi'
     )
 
@@ -164,7 +167,7 @@ class RiwayatAbsensi(models.Model):
 
     sesi_absensi = models.ForeignKey(
         SesiAbsensi,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='riwayat_absensi'
     )
 

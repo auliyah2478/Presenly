@@ -1,0 +1,270 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0E1F2F">
+
+    <title>Presenly | Smart Attendance System</title>
+
+    <link rel="stylesheet" href="{% static 'core/css/welcome.css' %}">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a href="/" class="brand">
+            <span class="brand-icon">P</span>
+            <span>presenly<span class="brand-dot">.</span></span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="#tentang">Tentang</a>
+            <a href="#fitur">Fitur</a>
+            <a href="#teknologi">Teknologi</a>
+        </nav>
+
+        <a href="/login/" class="nav-login">
+            Masuk <span>↗</span>
+        </a>
+    </header>
+
+
+    <main>
+
+        <section class="hero" id="tentang">
+
+            <div class="hero-content">
+
+                <div class="hero-badge">
+                    <span class="status-dot"></span>
+                    SMART ATTENDANCE SYSTEM
+                </div>
+
+                <h1>
+                    Presensi Lebih
+                    <span>Mudah,</span>
+                    <span class="heading-accent">Cerdas, dan Akurat.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Selamat datang di Presenly, sistem presensi mahasiswa
+                    berbasis pengenalan wajah yang dirancang untuk
+                    menghadirkan pengelolaan kehadiran yang lebih
+                    praktis, modern, dan efisien.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="/login/" class="primary-button">
+                        Masuk ke Presenly
+                        <span>→</span>
+                    </a>
+
+                    <a href="#fitur" class="secondary-button">
+                        Pelajari Lebih Lanjut
+                    </a>
+                </div>
+
+                <div class="hero-note">
+                    <span class="note-icon">✦</span>
+                    <span>Smart Technology for Better Attendance</span>
+                </div>
+
+            </div>
+
+
+            <div class="hero-visual">
+
+                <div class="visual-glow"></div>
+
+                <div class="dashboard-preview">
+
+                    <div class="preview-header">
+                        <div class="preview-brand">
+                            <span class="preview-logo">P</span>
+                            <span>Presenly</span>
+                        </div>
+
+                        <span class="preview-status">
+                            <span></span> System Online
+                        </span>
+                    </div>
+
+                    <div class="preview-body">
+
+                        <div class="preview-heading">
+                            <div>
+                                <span class="preview-caption">
+                                    OVERVIEW
+                                </span>
+                                <h3>Attendance Dashboard</h3>
+                            </div>
+
+                            <div class="preview-date">
+                                TODAY
+                            </div>
+                        </div>
+
+                        <div class="preview-stats">
+
+                            <div class="preview-card">
+                                <div class="preview-card-icon">♙</div>
+                                <span>Total Mahasiswa</span>
+                                <strong>64</strong>
+                                <small>Mahasiswa terdaftar</small>
+                            </div>
+
+                            <div class="preview-card">
+                                <div class="preview-card-icon">✓</div>
+                                <span>Kehadiran</span>
+                                <strong>92%</strong>
+                                <small>Persentase kehadiran</small>
+                            </div>
+
+                        </div>
+
+                        <div class="preview-attendance">
+
+                            <div class="attendance-title">
+                                <div>
+                                    <strong>Aktivitas Presensi</strong>
+                                    <small>Ringkasan kehadiran</small>
+                                </div>
+                                <span class="live-label">LIVE</span>
+                            </div>
+
+                            <div class="attendance-chart">
+                                <div class="chart-line">
+                                    <span style="height: 42%"></span>
+                                    <span style="height: 67%"></span>
+                                    <span style="height: 53%"></span>
+                                    <span style="height: 83%"></span>
+                                    <span style="height: 72%"></span>
+                                    <span style="height: 95%"></span>
+                                    <span style="height: 78%"></span>
+                                </div>
+                                <div class="chart-labels">
+                                    <span>Sen</span>
+                                    <span>Sel</span>
+                                    <span>Rab</span>
+                                    <span>Kam</span>
+                                    <span>Jum</span>
+                                    <span>Sab</span>
+                                    <span>Min</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="preview-footer">
+                            <span class="footer-check">✓</span>
+                            Face Recognition Technology
+                            <span class="footer-arrow">↗</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="floating-card">
+                    <span class="floating-icon">✦</span>
+                    <div>
+                        <strong>Smart Recognition</strong>
+                        <small>Face recognition system</small>
+                    </div>
+                </div>
+
+                <div class="visual-decoration decoration-one"></div>
+                <div class="visual-decoration decoration-two"></div>
+
+            </div>
+
+        </section>
+
+
+        <section class="features" id="fitur">
+
+            <div class="section-heading">
+                <span>WHY PRESENLY?</span>
+                <h2>Pengelolaan presensi dalam satu sistem.</h2>
+                <p>
+                    Dirancang untuk membantu aktivitas akademik
+                    menjadi lebih terorganisasi.
+                </p>
+            </div>
+
+            <div class="feature-grid">
+
+                <article class="feature-card">
+                    <div class="feature-icon rose">◎</div>
+                    <h3>Pengenalan Wajah</h3>
+                    <p>
+                        Proses pencatatan kehadiran mahasiswa
+                        menggunakan teknologi pengenalan wajah.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon blue">▦</div>
+                    <h3>Manajemen Akademik</h3>
+                    <p>
+                        Pengelolaan data mahasiswa, dosen,
+                        kelas, dan jadwal perkuliahan.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon lavender">◷</div>
+                    <h3>Riwayat Kehadiran</h3>
+                    <p>
+                        Pemantauan dan pengelolaan catatan
+                        kehadiran secara lebih terstruktur.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <section class="technology" id="teknologi">
+
+            <div class="technology-content">
+                <span>BUILT FOR SMARTER EDUCATION</span>
+                <h2>
+                    Teknologi untuk pengalaman
+                    presensi yang lebih baik.
+                </h2>
+                <p>
+                    Presenly mengintegrasikan sistem pengelolaan
+                    akademik dan teknologi pengenalan wajah
+                    dalam satu platform.
+                </p>
+            </div>
+
+            <div class="technology-symbol">
+                <div class="symbol-circle">
+                    <span>P</span>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+        <a href="/" class="brand footer-brand">
+            <span class="brand-icon">P</span>
+            <span>presenly<span class="brand-dot">.</span></span>
+        </a>
+
+        <p>Smart Attendance System</p>
+
+        <span>© 2026 Presenly. All rights reserved.</span>
+    </footer>
+
+</body>
+</html>

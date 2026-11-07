@@ -1,0 +1,88 @@
+
+{% extends "admin/index.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="presenly-dashboard">
+
+    <div class="presenly-welcome">
+        <div>
+            <span class="presenly-eyebrow">PRESENLY ADMINISTRATION</span>
+            <h1>Selamat Datang di Presenly</h1>
+            <p>
+                Kelola data mahasiswa, dosen, jadwal kuliah,
+                dan aktivitas absensi dalam satu tempat.
+            </p>
+        </div>
+        <div class="presenly-welcome-icon">✦</div>
+    </div>
+
+    <div class="presenly-stats-grid">
+
+        <div class="presenly-stat-card">
+            <div class="presenly-stat-icon">♙</div>
+            <div class="presenly-stat-label">Total Mahasiswa</div>
+            <div class="presenly-stat-number">
+                {{ presenly_total_mahasiswa|default:0 }}
+            </div>
+            <div class="presenly-stat-description">
+                Mahasiswa terdaftar
+            </div>
+        </div>
+
+        <div class="presenly-stat-card">
+            <div class="presenly-stat-icon">▦</div>
+            <div class="presenly-stat-label">Total Kelas</div>
+            <div class="presenly-stat-number">
+                {{ presenly_total_kelas|default:0 }}
+            </div>
+            <div class="presenly-stat-description">
+                Kelas tersedia
+            </div>
+        </div>
+
+        <div class="presenly-stat-card">
+            <div class="presenly-stat-icon">▤</div>
+            <div class="presenly-stat-label">Total Jadwal</div>
+            <div class="presenly-stat-number">
+                {{ presenly_total_jadwal|default:0 }}
+            </div>
+            <div class="presenly-stat-description">
+                Jadwal perkuliahan
+            </div>
+        </div>
+
+        <div class="presenly-stat-card">
+            <div class="presenly-stat-icon">✓</div>
+            <div class="presenly-stat-label">Total Absensi</div>
+            <div class="presenly-stat-number">
+                {{ presenly_total_absensi|default:0 }}
+            </div>
+            <div class="presenly-stat-description">
+                Catatan kehadiran
+            </div>
+        </div>
+
+    </div>
+
+    <div class="presenly-session-card">
+        <div>
+            <span class="presenly-session-label">
+                STATUS SESI ABSENSI
+            </span>
+            <h3>Sesi Absensi Aktif</h3>
+            <p>
+                Jumlah sesi absensi yang sedang diaktifkan.
+            </p>
+        </div>
+        <div class="presenly-session-number">
+            {{ presenly_sesi_aktif|default:0 }}
+        </div>
+    </div>
+
+</div>
+
+{{ block.super }}
+
+{% endblock %}
