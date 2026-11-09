@@ -1,5 +1,10 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import action, api_view
+from rest_framework.decorators import (
+    action,
+    api_view,
+    authentication_classes,
+    permission_classes,
+)
 from rest_framework.response import Response
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -9,7 +14,11 @@ from io import StringIO
 from django.utils import timezone
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAdminUser,
+)
 from rest_framework.authentication import TokenAuthentication
 
 import cv2
@@ -41,24 +50,33 @@ from .serializers import (
 )
 
 
+
 class KelasViewSet(viewsets.ModelViewSet):
     queryset = Kelas.objects.all()
     serializer_class = KelasSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
 
 class DosenViewSet(viewsets.ModelViewSet):
     queryset = Dosen.objects.all()
     serializer_class = DosenSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
 
 class MahasiswaViewSet(viewsets.ModelViewSet):
     queryset = Mahasiswa.objects.all()
     serializer_class = MahasiswaSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
 
 class MataKuliahViewSet(viewsets.ModelViewSet):
     queryset = MataKuliah.objects.all()
     serializer_class = MataKuliahSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
 
 class JadwalViewSet(viewsets.ModelViewSet):
@@ -116,12 +134,7 @@ class JadwalViewSet(viewsets.ModelViewSet):
 
         user = self.request.user
 
-        # ===============================
-        # ADMIN
-        # ===============================
-
         if user.is_superuser:
-
             return (
                 Jadwal.objects
                 .select_related(
@@ -132,44 +145,120 @@ class JadwalViewSet(viewsets.ModelViewSet):
                 .all()
             )
 
-        # ===============================
-        # DOSEN
-        # ===============================
-
-        if hasattr(
-            user,
-            "dosen_profile"
-        ):
-
-            dosen = (
-                user.dosen_profile
-            )
+        if hasattr(user, "dosen_profile"):
+            dosen = user.dosen_profile
 
             return (
                 Jadwal.objects
-                    .select_related(
-                        "mata_kuliah",
-                        "kelas",
-                        "dosen"
-                    )
-                    .filter(
-                            Q(dosen=dosen) |
-                            Q(dosen_pendamping=dosen)
-                        )
-                        .distinct()
+                .select_related(
+                    "mata_kuliah",
+                    "kelas",
+                    "dosen"
+                )
+                .filter(
+                    Q(dosen=dosen) |
+                    Q(dosen_pendamping=dosen)
+                )
+                .distinct()
             )
 
         return Jadwal.objects.none()
 
-
 class FaceEmbeddingViewSet(viewsets.ModelViewSet):
     queryset = FaceEmbedding.objects.all()
     serializer_class = FaceEmbeddingSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+
+def buat_alfa_sesi_berakhir(sesi):
+
+    # Jangan proses jika sesi belum berakhir
+    if timezone.now() < sesi.waktu_tutup:
+        return
+
+    # Ambil semua mahasiswa dari kelas tersebut
+    mahasiswa_di_kelas = Mahasiswa.objects.filter(
+        kelas_id=sesi.jadwal.kelas_id
+    )
+
+    for mahasiswa in mahasiswa_di_kelas:
+
+        # Buat ALFA hanya jika belum ada riwayat absensi
+        RiwayatAbsensi.objects.get_or_create(
+            mahasiswa=mahasiswa,
+            sesi_absensi=sesi,
+            defaults={
+                "status": "ALFA",
+                "waktu_absen": None,
+                "distance_score": None,
+            }
+        )
+
+    # Tutup sesi jika masih aktif
+    if sesi.aktif:
+        sesi.aktif = False
+        sesi.save(update_fields=["aktif"])
 
 
 class SesiAbsensiViewSet(viewsets.ModelViewSet):
+
     queryset = SesiAbsensi.objects.all()
     serializer_class = SesiAbsensiSerializer
+
+    authentication_classes = [
+        TokenAuthentication
+    ]
+
+    permission_classes = [
+        IsAuthenticated
+    ]
+
+    def get_queryset(self):
+
+        user = self.request.user
+
+        queryset = (
+            SesiAbsensi.objects
+            .select_related(
+                "jadwal",
+                "jadwal__mata_kuliah",
+                "jadwal__kelas",
+                "jadwal__dosen",
+            )
+            .order_by("-waktu_buka")
+        )
+
+        # ADMIN: dapat melihat seluruh sesi
+        if user.is_superuser:
+            return queryset
+
+        # DOSEN: hanya melihat sesi jadwal miliknya
+        if hasattr(user, "dosen_profile"):
+
+            dosen = user.dosen_profile
+
+            return queryset.filter(
+                Q(jadwal__dosen=dosen) |
+                Q(jadwal__dosen_pendamping=dosen)
+            ).distinct()
+
+        return queryset.none()
+    
+    def list(self, request, *args, **kwargs):
+
+        # Cari sesi yang sudah melewati waktu tutup
+        sesi_berakhir = self.get_queryset().filter(
+            aktif=True,
+            waktu_tutup__lte=timezone.now()
+        )
+
+        # Buat catatan ALFA untuk mahasiswa yang belum absen
+        for sesi in sesi_berakhir:
+            buat_alfa_sesi_berakhir(sesi)
+
+        # Tampilkan daftar sesi seperti biasa
+        return super().list(request, *args, **kwargs)
 
 
 # ==========================================
@@ -204,36 +293,25 @@ class RiwayatAbsensiViewSet(viewsets.ModelViewSet):
                 "sesi_absensi__jadwal__kelas",
                 "sesi_absensi__jadwal__dosen",
             )
-            .order_by("-waktu_absen")
+            .order_by(
+                "-sesi_absensi__waktu_buka",
+                "-waktu_absen"
+            )
         )
 
-        # ===============================
-        # ADMIN
-        # Dapat melihat seluruh riwayat
-        # absensi mahasiswa.
-        # ===============================
-
+        # ADMIN: melihat seluruh riwayat
         if user.is_superuser:
             return queryset
 
-        # ===============================
-        # DOSEN
-        # Hanya melihat riwayat absensi
-        # dari jadwal miliknya sendiri.
-        # ===============================
-
+        # DOSEN: dosen utama dan pendamping
         if hasattr(user, "dosen_profile"):
 
             dosen = user.dosen_profile
 
             return queryset.filter(
-                sesi_absensi__jadwal__dosen=dosen
-            )
-
-        # ===============================
-        # AKUN LAIN
-        # Tidak mendapatkan akses.
-        # ===============================
+                Q(sesi_absensi__jadwal__dosen=dosen) |
+                Q(sesi_absensi__jadwal__dosen_pendamping=dosen)
+            ).distinct()
 
         return queryset.none()
 
@@ -277,93 +355,27 @@ def tentukan_status_kehadiran(sekarang, sesi):
 
 
 def get_or_create_sesi_absensi(mahasiswa, sekarang):
-    sekarang_local = timezone.localtime(sekarang)
 
-    daftar_hari = [
-        "Senin",
-        "Selasa",
-        "Rabu",
-        "Kamis",
-        "Jumat",
-        "Sabtu",
-        "Minggu",
-    ]
-
-    hari_ini = daftar_hari[sekarang_local.weekday()]
-
-    if hari_ini == "Jumat":
-        jadwal_hari_ini = Jadwal.objects.filter(
-            hari__in=["Jumat", "Jum'at", "Jum’at"],
-            kelas_id=mahasiswa.kelas_id,
+    sesi = (
+        SesiAbsensi.objects
+        .select_related(
+            "jadwal",
+            "jadwal__mata_kuliah",
+            "jadwal__kelas",
+            "jadwal__dosen",
         )
-    else:
-        jadwal_hari_ini = Jadwal.objects.filter(
-            hari__iexact=hari_ini,
-            kelas_id=mahasiswa.kelas_id,
+        .filter(
+            jadwal__kelas_id=mahasiswa.kelas_id,
+            aktif=True,
+            waktu_buka__lte=sekarang,
+            waktu_tutup__gt=sekarang,
         )
+        .order_by("-waktu_buka")
+        .first()
+    )
 
-    jadwal_hari_ini = jadwal_hari_ini.select_related(
-        "mata_kuliah",
-        "kelas",
-        "dosen",
-    ).order_by("jam_mulai")
+    return sesi
 
-    for jadwal in jadwal_hari_ini:
-
-        jam_mulai = timezone.make_aware(
-            datetime.combine(
-                sekarang_local.date(),
-                jadwal.jam_mulai,
-            ),
-            timezone.get_current_timezone(),
-        )
-
-        jam_selesai = timezone.make_aware(
-            datetime.combine(
-                sekarang_local.date(),
-                jadwal.jam_selesai,
-            ),
-            timezone.get_current_timezone(),
-        )
-
-        waktu_buka = jam_mulai - timedelta(minutes=5)
-
-        if sekarang_local >= jam_selesai:
-            SesiAbsensi.objects.filter(
-                jadwal=jadwal,
-                waktu_buka=waktu_buka,
-                aktif=True,
-            ).update(aktif=False)
-
-            continue
-
-        if waktu_buka <= sekarang_local < jam_selesai:
-
-            sesi, _ = SesiAbsensi.objects.get_or_create(
-                jadwal=jadwal,
-                waktu_buka=waktu_buka,
-                defaults={
-                    "waktu_tutup": jam_selesai,
-                    "aktif": True,
-                },
-            )
-
-            if (
-                not sesi.aktif
-                or sesi.waktu_tutup != jam_selesai
-            ):
-                sesi.aktif = True
-                sesi.waktu_tutup = jam_selesai
-                sesi.save(
-                    update_fields=[
-                        "aktif",
-                        "waktu_tutup",
-                    ]
-                )
-
-            return sesi
-
-    return None
 
 # ==========================================
 # SCAN ABSENSI
@@ -572,6 +584,7 @@ def scan_absensi(request):
             mahasiswa=mahasiswa_terbaik,
             sesi_absensi=sesi,
             status=status_kehadiran,
+            waktu_absen=sekarang,
             distance_score=distance_terbaik
         )
 
@@ -731,7 +744,18 @@ def login_api(request):
 # ==========================================
 
 @api_view(["POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated, IsAdminUser])
 def registrasi_wajah(request):
+
+    if not request.user.is_superuser:
+        return Response(
+            {
+                "status": "gagal",
+                "message": "Hanya admin yang dapat melakukan registrasi wajah."
+            },
+            status=status.HTTP_403_FORBIDDEN
+        )
 
     npm = request.data.get("npm")
     foto = request.FILES.get("foto")

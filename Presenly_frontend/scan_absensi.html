@@ -1,46 +1,87 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scan Absensi - Presenly</title>
 
-    <link rel="stylesheet" href="styles/style.css">
+    <title>Scan Absensi | Presenly</title>
+
+    <link rel="stylesheet" href="styles/style.css?v=20261108-7">
 </head>
 
-<body>
+<body class="login-page">
 
-<div class="login-container">
+    <main class="login-container">
 
-    <div class="login-card">
+        <section class="login-card scan-card">
 
-        <h1>Scan Absensi</h1>
+            <div class="login-brand">
+                <div class="login-logo">P</div>
+                <span>presenly<span class="brand-dot">.</span></span>
+            </div>
 
-        <video
-            id="video"
-            width="100%"
-            autoplay
-            playsinline
-        ></video>
+            <div class="login-heading">
+                <span class="login-eyebrow">
+                    SMART FACE ATTENDANCE
+                </span>
 
-        <canvas
-            id="canvas"
-            style="display:none;"
-        ></canvas>
+                <h1>Scan Absensi</h1>
 
-        <button id="scanButton">
-            Scan Wajah
-        </button>
+                <p>
+                    Arahkan wajah ke kamera untuk
+                    melakukan absensi perkuliahan.
+                </p>
+            </div>
 
-        <p id="message"></p>
+            <div class="camera-container">
 
-        <div id="hasil"></div>
+                <div class="camera-label">
+                    <span class="camera-indicator"></span>
+                    Kamera Presenly
+                </div>
 
-    </div>
+                <video
+                    id="video"
+                    autoplay
+                    playsinline
+                    class="scan-video"
+                ></video>
 
-</div>
+            </div>
 
-<script src="scripts/scan_absensi.js?v=20261105-2"></script>
+            <canvas
+                id="canvas"
+                style="display: none;"
+            ></canvas>
+
+            <div class="scan-form">
+
+                <button type="button" id="scanButton">
+                    Scan Wajah
+                    <span aria-hidden="true">→</span>
+                </button>
+
+                <p
+                    id="message"
+                    class="scan-message"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+            </div>
+
+            <div id="hasil"></div>
+
+            <div class="login-footer">
+                Presenly · Smart Attendance System
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="scripts/scan_absensi.js?v=20261108-1"></script>
 
 </body>
 </html>

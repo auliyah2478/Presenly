@@ -7,6 +7,7 @@ const simpanButton = document.getElementById("simpanButton");
 const message = document.getElementById("message");
 
 const token = localStorage.getItem("token");
+const role = localStorage.getItem("role");
 
 async function loadKelas() {
     try {
@@ -53,6 +54,8 @@ async function loadKelas() {
 
 if (!token) {
     window.location.replace("login.html");
+} else if (role !== "admin") {
+    window.location.replace("dashboard.html");
 }
 
 
@@ -183,6 +186,6 @@ simpanButton.addEventListener("click", async function () {
 
 });
 
-if (token) {
+if (token && role === "admin") {
     loadKelas();
 }

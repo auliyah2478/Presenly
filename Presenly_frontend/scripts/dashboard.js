@@ -78,6 +78,11 @@ const menuJadwal =
         "menuJadwal"
     );
 
+const menuMahasiswa =
+    document.getElementById(
+        "menuMahasiswa"
+    );
+
 const menuSesi =
     document.getElementById(
         "menuSesi"
@@ -276,12 +281,12 @@ async function getData(endpoint) {
 }
 
 
+
 // ====================================
 // DASHBOARD ADMIN
 // ====================================
 
 let daftarMahasiswa = [];
-
 
 async function loadDashboardAdmin() {
 
@@ -291,48 +296,42 @@ async function loadDashboardAdmin() {
             mahasiswa,
             kelas,
             jadwal,
-            absensi
+            absensi,
+            sesiAbsensi
         ] = await Promise.all([
 
             getData("mahasiswa"),
             getData("kelas"),
             getData("jadwal"),
-            getData("riwayat-absensi")
+            getData("riwayat-absensi"),
+            getData("sesi-absensi")
         ]);
 
-
-        daftarMahasiswa =
-            mahasiswa;
-
+        daftarMahasiswa = mahasiswa;
 
         document.getElementById(
             "totalMahasiswa"
-        ).innerText =
-            mahasiswa.length;
-
+        ).innerText = mahasiswa.length;
 
         document.getElementById(
             "totalKelas"
-        ).innerText =
-            kelas.length;
-
+        ).innerText = kelas.length;
 
         document.getElementById(
             "totalJadwalAdmin"
-        ).innerText =
-            jadwal.length;
-
+        ).innerText = jadwal.length;
 
         document.getElementById(
             "totalAbsensiAdmin"
-        ).innerText =
-            absensi.length;
+        ).innerText = absensi.length;
 
-
-        tampilkanMahasiswa(
-            mahasiswa
+        // Pemeriksaan data sesi absensi
+        console.log(
+            "Data sesi absensi Admin:",
+            sesiAbsensi
         );
 
+        tampilkanMahasiswa(mahasiswa);
 
     } catch (error) {
 
@@ -342,6 +341,7 @@ async function loadDashboardAdmin() {
         );
     }
 }
+
 
 
 // ====================================
@@ -483,6 +483,11 @@ async function loadDashboardDosen() {
 
     try {
 
+        // Memeriksa sesi yang sudah berakhir
+        // dan memproses ALFA terlebih dahulu.
+        await getData("sesi-absensi");
+
+        // Setelah itu ambil jadwal dan riwayat absensi.
         const [
             jadwal,
             absensi
@@ -505,32 +510,32 @@ async function loadDashboardDosen() {
             absensi.length;
 
 
-        const hadir =
+            const hadir =
             absensi.filter(
-                item =>
-                    item.status ===
-                    "HADIR"
+                item => item.status === "HADIR"
             );
-
-
+        
         const terlambat =
             absensi.filter(
-                item =>
-                    item.status ===
-                    "TERLAMBAT"
+                item => item.status === "TERLAMBAT"
             );
-
-
+        
+        const alfa =
+            absensi.filter(
+                item => item.status === "ALFA"
+            );
+        
         document.getElementById(
             "totalHadir"
-        ).innerText =
-            hadir.length;
-
-
+        ).innerText = hadir.length;
+        
         document.getElementById(
             "totalTerlambat"
-        ).innerText =
-            terlambat.length;
+        ).innerText = terlambat.length;
+        
+        document.getElementById(
+            "totalAlfa"
+        ).innerText = alfa.length;
 
 
         tampilkanJadwalDosen(
@@ -1081,6 +1086,40 @@ if (menuSesi) {
     );
 }
 
+// ====================================
+// KLIK MENU DATA MAHASISWA
+// ====================================
+
+if (menuMahasiswa) {
+
+    menuMahasiswa.addEventListener(
+        "click",
+        async function (event) {
+
+            event.preventDefault();
+
+            if (role !== "admin") {
+                return;
+            }
+
+            sembunyikanSemuaKonten();
+
+            dashboardAdmin.style.display = "block";
+
+            judulDashboard.innerText = "Data Mahasiswa";
+
+            await loadDashboardAdmin();
+
+            window.location.hash = "mahasiswa";
+
+            document.getElementById("mahasiswa").scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+    );
+}
 
 // ====================================
 // CEK HASH SAAT REFRESH
@@ -1133,3 +1172,53 @@ async function cekHalamanAktif() {
 
 
 cekHalamanAktif();
+
+/* =========================================
+   MOBILE SIDEBAR MENU
+========================================= */
+
+const sidebarMobile = document.querySelector(".sidebar");
+const tombolMenuMobile = document.getElementById("mobileMenuButton");
+const overlaySidebarMobile = document.getElementById("sidebarOverlay");
+
+function bukaSidebarMobile() {
+    sidebarMobile.classList.add("mobile-open");
+    overlaySidebarMobile.classList.add("show");
+
+    tombolMenuMobile.setAttribute("aria-expanded", "true");
+}
+
+function tutupSidebarMobile() {
+    sidebarMobile.classList.remove("mobile-open");
+    overlaySidebarMobile.classList.remove("show");
+
+    tombolMenuMobile.setAttribute("aria-expanded", "false");
+}
+
+// Klik tombol hamburger
+tombolMenuMobile.addEventListener("click", function () {
+    if (sidebarMobile.classList.contains("mobile-open")) {
+        tutupSidebarMobile();
+    } else {
+        bukaSidebarMobile();
+    }
+});
+
+// Klik area gelap untuk menutup sidebar
+overlaySidebarMobile.addEventListener("click", function () {
+    tutupSidebarMobile();
+});
+
+// Tutup sidebar setelah memilih menu
+sidebarMobile.querySelectorAll(".menu a").forEach(function (link) {
+    link.addEventListener("click", function () {
+        tutupSidebarMobile();
+    });
+});
+
+// Tutup sidebar dengan tombol Escape
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+        tutupSidebarMobile();
+    }
+});

@@ -60,7 +60,7 @@ scanButton.addEventListener(
         scanButton.disabled = true;
         message.innerText = "Sedang memproses wajah...";
         hasil.innerHTML = "";
-        clearTimeout(resetHasilTimer);
+        
 
         try {
             canvas.width = video.videoWidth;
@@ -112,27 +112,47 @@ scanButton.addEventListener(
                     ? "Absensi tercatat sebagai alfa."
                     : "Absensi berhasil.";
 
-            hasil.innerHTML = `
-                <p>Nama: ${escapeHtml(data.nama)}</p>
-                <p>NPM: ${escapeHtml(data.npm)}</p>
-                <p>Kelas: ${escapeHtml(data.kelas)}</p>
-                <p>Status: ${statusLabel[data.kehadiran] ?? escapeHtml(data.kehadiran)}</p>
-                <p>Distance: ${escapeHtml(data.distance)}</p>
-            `;
+                const waktu = data.waktu_absen
+                    ? new Date(data.waktu_absen)
+                    : null;
+                
+                const waktuLabel =
+                    waktu && !Number.isNaN(waktu.getTime())
+                        ? waktu.toLocaleString("id-ID", {
+                            dateStyle: "medium",
+                            timeStyle: "medium"
+                        })
+                        : "-";
+                
+                hasil.innerHTML = `
+                    <p>Nama: ${escapeHtml(data.nama)}</p>
+                    <p>NPM: ${escapeHtml(data.npm)}</p>
+                    <p>Kelas: ${escapeHtml(data.kelas)}</p>
+                    <p>Mata Kuliah: ${escapeHtml(data.nama_mata_kuliah)}</p>
+                    <p>Status: ${statusLabel[data.kehadiran] ?? escapeHtml(data.kehadiran)}</p>
+                    <p>Waktu Absensi: ${escapeHtml(waktuLabel)}</p>
+                `;
+                resetHasilTimer = setTimeout(function () {
+                    hasil.innerHTML = "";
+                    message.innerText =
+                        "Siap untuk absensi mahasiswa berikutnya.";
+                }, 10000);
 
-            resetHasilTimer = setTimeout(function () {
-                hasil.innerHTML = "";
+            
+        
+            } catch (error) {
+                console.error("Scan absensi error:", error);
+    
                 message.innerText =
-                    "Siap untuk absensi mahasiswa berikutnya.";
-            }, 5000);
-        } catch (error) {
-            console.error(error);
-            message.innerText =
-                error.message || "Gagal terhubung ke server.";
-        } finally {
-            sedangMemindai = false;
-            scanButton.disabled = false;
-        }
+                    error.message === "Gagal mengambil gambar dari kamera."
+                        ? error.message
+                        : "Gagal terhubung ke server. Periksa koneksi dan coba lagi.";
+    
+            } finally {
+                sedangMemindai = false;
+                scanButton.disabled = false;
+            }
+
 
     }
 );

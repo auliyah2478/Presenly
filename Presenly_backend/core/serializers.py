@@ -9,6 +9,7 @@ from .models import (
     SesiAbsensi,
     RiwayatAbsensi,
 )
+from django.utils import timezone
 
 
 class KelasMahasiswaField(serializers.PrimaryKeyRelatedField):
@@ -43,7 +44,13 @@ class DosenSerializer(serializers.ModelSerializer):
 
 
 class MahasiswaSerializer(serializers.ModelSerializer):
-    kelas = KelasMahasiswaField(queryset=Kelas.objects.all())
+    kelas = KelasMahasiswaField(
+        queryset=Kelas.objects.all()
+    )
+    kelas_nama = serializers.CharField(
+        source='kelas.nama_kelas',
+        read_only=True
+    )
 
     class Meta:
         model = Mahasiswa
@@ -129,7 +136,11 @@ class SesiAbsensiSerializer(serializers.ModelSerializer):
                 'status': (
                     riwayat_per_mahasiswa[mahasiswa.id].status
                     if mahasiswa.id in riwayat_per_mahasiswa
-                    else 'ALFA'
+                    else (
+                        'BELUM ABSEN'
+                        if obj.aktif and timezone.now() < obj.waktu_tutup
+                        else 'ALFA'
+                    )
                 ),
                 'waktu_absen': (
                     riwayat_per_mahasiswa[mahasiswa.id].waktu_absen

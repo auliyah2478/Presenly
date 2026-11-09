@@ -1,273 +1,290 @@
+
+/* =========================================
+   PRESE NLY - ADMIN & DOSEN DASHBOARD
+   Elegant Navy & Dusty Rose Theme
+========================================= */
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f7fb;
-    color: #1f2937;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #F7F2F6;
+    color: #0E1F2F;
 }
 
-/* =========================
+/* =========================================
    SIDEBAR
-========================= */
+========================================= */
 
 .sidebar {
     position: fixed;
     top: 0;
     left: 0;
-
-    width: 240px;
+    z-index: 100;
+    width: 250px;
     height: 100vh;
 
-    background: #ffffff;
-
-    border-right: 1px solid #e5e7eb;
-
-    padding: 24px 18px;
+    background: #0E1F2F;
+    padding: 28px 18px;
 
     display: flex;
     flex-direction: column;
+
+    box-shadow: 5px 0 25px rgba(14, 31, 47, 0.08);
 }
 
 .brand {
-    font-size: 27px;
-    font-weight: bold;
-
-    margin-bottom: 35px;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #FFFFFF;
+    margin: 0 0 42px 8px;
 }
 
 .menu {
     display: flex;
     flex-direction: column;
-
-    gap: 7px;
+    gap: 8px;
 }
 
 .menu a {
     display: block;
-
     text-decoration: none;
-
-    color: #4b5563;
-
-    padding: 12px 14px;
-
-    border-radius: 8px;
-
-    transition: 0.2s;
+    color: #D7DFE8;
+    padding: 13px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.25s ease;
 }
 
 .menu a:hover {
-    background: #f3f6fb;
-
-    color: #2563eb;
+    background: rgba(134, 168, 207, 0.16);
+    color: #FFFFFF;
+    transform: translateX(3px);
 }
 
 .menu a.active {
-    background: #eef2ff;
-
-    color: #2563eb;
-
-    font-weight: 600;
+    background: #E1CBD7;
+    color: #0E1F2F;
+    font-weight: 700;
 }
 
 .logout-button {
     margin-top: auto;
-
     width: 100%;
-
-    padding: 12px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #f3f4f6;
-
+    padding: 13px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.09);
+    color: #FFFFFF;
     cursor: pointer;
-
+    font-family: inherit;
+    font-size: 14px;
     font-weight: 600;
+    transition: 0.25s ease;
 }
 
 .logout-button:hover {
-    background: #e5e7eb;
+    background: #C38EB4;
+    color: #0E1F2F;
+    border-color: #C38EB4;
 }
 
-
-/* =========================
+/* =========================================
    MAIN CONTENT
-========================= */
+========================================= */
 
 .main-content {
-    margin-left: 240px;
-
-    padding: 30px;
+    margin-left: 250px;
+    min-height: 100vh;
+    padding: 32px;
 }
 
-
-/* =========================
+/* =========================================
    TOPBAR
-========================= */
+========================================= */
 
 .topbar {
     display: flex;
-
     justify-content: space-between;
     align-items: center;
-
     margin-bottom: 30px;
 }
 
 .topbar h1 {
-    margin: 0 0 6px 0;
-
-    font-size: 28px;
+    margin: 0 0 7px;
+    font-size: 29px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+    color: #0E1F2F;
 }
 
 .topbar p {
     margin: 0;
-
-    color: #6b7280;
+    color: #718096;
+    font-size: 14px;
 }
 
 .user-info {
     display: flex;
-
     align-items: center;
-
-    gap: 10px;
+    gap: 12px;
 }
 
 #username {
-    font-weight: 600;
+    font-weight: 700;
+    color: #0E1F2F;
 }
 
 .role-badge {
-    padding: 6px 11px;
-
+    padding: 7px 13px;
     border-radius: 20px;
-
-    background: #eef2ff;
-
-    color: #2563eb;
-
-    font-size: 12px;
-
-    font-weight: bold;
+    background: #E1CBD7;
+    color: #26425A;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
 }
 
-
-/* =========================
+/* =========================================
    STATISTIC CARDS
-========================= */
+========================================= */
 
 .cards {
     display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
-
     margin-bottom: 30px;
 }
 
 .card {
-    background: white;
+    position: relative;
+    overflow: hidden;
+    background: #FFFFFF;
+    padding: 25px;
+    border-radius: 17px;
+    border: 1px solid #EADDE6;
 
-    padding: 22px;
+    box-shadow: 0 5px 20px rgba(14, 31, 47, 0.035);
 
-    border-radius: 12px;
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease;
+}
 
-    border: 1px solid #e5e7eb;
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(14, 31, 47, 0.08);
+}
 
-    box-shadow:
-        0 3px 10px
-        rgba(0, 0, 0, 0.04);
+.card::after {
+    content: "";
+    position: absolute;
+    right: -25px;
+    top: -25px;
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    background: rgba(225, 203, 215, 0.25);
 }
 
 .card p {
+    position: relative;
+    z-index: 1;
     margin: 0;
-
-    color: #6b7280;
-
+    color: #718096;
     font-size: 14px;
+    font-weight: 500;
 }
 
 .card h2 {
-    margin:
-        12px 0 0 0;
-
-    font-size: 30px;
+    position: relative;
+    z-index: 1;
+    margin: 14px 0 0;
+    font-size: 34px;
+    font-weight: 800;
+    color: #0E1F2F;
 }
 
-
-/* =========================
-   SECTION
-========================= */
+/* =========================================
+   CONTENT SECTIONS
+========================================= */
 
 section {
-    background: white;
-
-    padding: 24px;
-
-    border-radius: 12px;
-
-    border: 1px solid #e5e7eb;
-
+    background: #FFFFFF;
+    padding: 27px;
+    border-radius: 17px;
+    border: 1px solid #EADDE6;
     margin-bottom: 25px;
 
-    box-shadow:
-        0 3px 10px
-        rgba(0, 0, 0, 0.03);
+    box-shadow: 0 5px 20px rgba(14, 31, 47, 0.035);
 }
 
 section h2 {
     margin-top: 0;
+    margin-bottom: 20px;
+    color: #0E1F2F;
+    font-size: 23px;
+    font-weight: 800;
 }
 
 .section-header {
     display: flex;
-
     justify-content: space-between;
     align-items: center;
-
-    margin-bottom: 18px;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 .section-header input {
     width: 280px;
-
-    padding: 11px 13px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 8px;
-
+    padding: 12px 15px;
+    border: 1px solid #E1CBD7;
+    border-radius: 10px;
     outline: none;
+    background: #F7F2F6;
+    color: #0E1F2F;
+    font-family: inherit;
+    font-size: 13px;
+    transition: 0.2s;
 }
 
 .section-header input:focus {
-    border-color: #2563eb;
+    border-color: #86A8CF;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(134, 168, 207, 0.15);
 }
+
+/* =========================================
+   SCHEDULE ACTIONS
+========================================= */
 
 .schedule-actions {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 6px;
+    gap: 7px;
 }
 
 #generateJadwalButton {
-    padding: 11px 16px;
-    border: 0;
-    border-radius: 8px;
-    background: #2563eb;
-    color: #ffffff;
-    font-weight: 600;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #0E1F2F;
+    color: #FFFFFF;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
     cursor: pointer;
+    transition: 0.25s;
+}
+
+#generateJadwalButton:hover {
+    background: #26425A;
+    transform: translateY(-2px);
 }
 
 #generateJadwalButton:disabled {
@@ -277,189 +294,236 @@ section h2 {
 
 #jadwalGenerationMessage {
     margin: 0;
-    color: #4b5563;
-    font-size: 13px;
+    color: #718096;
+    font-size: 12px;
 }
 
-
-/* =========================
+/* =========================================
    QUICK MENU
-========================= */
+========================================= */
 
 .quick-menu {
     display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 15px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
 }
 
 .quick-card {
+    display: block;
     text-decoration: none;
-
-    color: #1f2937;
-
-    padding: 20px;
-
-    border: 1px solid #e5e7eb;
-
-    border-radius: 10px;
-
-    transition: 0.2s;
+    color: #0E1F2F;
+    padding: 23px;
+    border: 1px solid #EADDE6;
+    border-radius: 13px;
+    background: #FFFFFF;
+    transition: all 0.25s ease;
 }
 
 .quick-card h3 {
-    margin:
-        0 0 8px 0;
+    margin: 0 0 9px;
+    font-size: 18px;
+    font-weight: 750;
 }
 
 .quick-card p {
     margin: 0;
-
-    color: #6b7280;
-
+    color: #718096;
     font-size: 14px;
+    line-height: 1.6;
 }
 
 .quick-card:hover {
-    border-color: #2563eb;
-
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-        0 5px 15px
-        rgba(0, 0, 0, 0.06);
+    border-color: #C38EB4;
+    background: #FBF7FA;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(14, 31, 47, 0.06);
 }
 
-
-/* =========================
+/* =========================================
    TABLE
-========================= */
+========================================= */
 
 .table-container {
     width: 100%;
-
     overflow-x: auto;
+    border-radius: 10px;
 }
 
 table {
     width: 100%;
-
     border-collapse: collapse;
+    min-width: 600px;
 }
 
 thead {
-    background: #f9fafb;
+    background: #0E1F2F;
 }
 
 th {
     text-align: left;
-
-    padding: 13px;
-
-    color: #6b7280;
-
-    font-size: 13px;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
 }
 
 td {
-    padding: 13px;
+    padding: 15px;
+    border-bottom: 1px solid #F0E7ED;
+    color: #34495E;
+    font-size: 13px;
+}
 
-    border-top: 1px solid #e5e7eb;
-
-    font-size: 14px;
+tbody tr {
+    transition: background 0.2s;
 }
 
 tbody tr:hover {
-    background: #fafafa;
+    background: #FBF7FA;
 }
 
-/* =========================
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* =========================================
    STATUS
-========================= */
+========================================= */
 
 .status {
     display: inline-block;
-
-    padding: 5px 10px;
-
+    padding: 6px 11px;
     border-radius: 20px;
-
-    background: #f3f4f6;
-
-    font-size: 12px;
-
-    font-weight: 600;
+    background: #F0E7ED;
+    color: #26425A;
+    font-size: 11px;
+    font-weight: 700;
 }
 
-
-/* =========================
+/* =========================================
    DASHBOARD ROLE
-========================= */
+========================================= */
 
 #dashboardAdmin,
 #dashboardDosen {
     display: none;
 }
 
+/* =========================================
+   GENERAL BUTTONS
+========================================= */
 
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 1000px) {
-
-    .cards {
-        grid-template-columns:
-            repeat(2, 1fr);
-    }
-
+button {
+    font-family: inherit;
 }
 
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 3px solid rgba(134, 168, 207, 0.5);
+    outline-offset: 2px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+    .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .main-content {
+        padding: 25px;
+    }
+}
 
 @media (max-width: 750px) {
-
     .sidebar {
         width: 190px;
+        padding: 23px 13px;
     }
 
     .main-content {
         margin-left: 190px;
-
         padding: 20px;
     }
 
     .topbar {
         align-items: flex-start;
-
         gap: 15px;
     }
 
-    .quick-menu {
-        grid-template-columns:
-            1fr;
+    .topbar h1 {
+        font-size: 24px;
     }
 
+    .quick-menu {
+        grid-template-columns: 1fr;
+    }
+
+    section {
+        padding: 20px;
+    }
 }
 
 
 @media (max-width: 600px) {
 
     .sidebar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+
+        width: 100%;
+        height: auto;
+
+        padding: 10px 15px;
+
+        background: #0E1F2F;
+        border-top: 1px solid #E1CBD7;
+        border-right: none;
+
+        z-index: 1000;
+    }
+
+    .sidebar .brand,
+    .sidebar .menu {
         display: none;
+    }
+
+    .logout-button {
+        display: block;
+        width: 100%;
+        max-width: 420px;
+        margin: 0;
+
+        background: #26425A;
+        color: #FFFFFF;
+
+        border-radius: 10px;
+    }
+
+    .logout-button:hover {
+        background: #C38EB4;
+        color: #0E1F2F;
     }
 
     .main-content {
         margin-left: 0;
-
-        padding: 15px;
+        padding: 17px 17px 90px;
     }
 
     .cards {
-        grid-template-columns:
-            1fr;
+        grid-template-columns: 1fr;
     }
 
     .topbar {
@@ -468,14 +532,284 @@ tbody tr:hover {
 
     .section-header {
         flex-direction: column;
-
         align-items: flex-start;
-
-        gap: 10px;
     }
 
     .section-header input {
         width: 100%;
     }
 
+    .schedule-actions {
+        align-items: flex-start;
+    }
+
+    section {
+        padding: 18px;
+        border-radius: 13px;
+    }
+}
+
+
+/* =========================================
+   MOBILE HAMBURGER MENU
+========================================= */
+
+/* Default: tombol dan overlay tidak tampil di laptop */
+.mobile-menu-button {
+    display: none;
+}
+
+.sidebar-overlay {
+    display: none;
+}
+
+/* Tampilan HP */
+@media (max-width: 600px) {
+
+    /* Tombol hamburger */
+    .mobile-menu-button {
+        display: flex;
+        position: fixed;
+        top: 14px;
+        left: 15px;
+        z-index: 800;
+
+        width: 44px;
+        height: 44px;
+
+        align-items: center;
+        justify-content: center;
+
+        border: none;
+        border-radius: 10px;
+
+        background: #0E1F2F;
+        color: #FFFFFF;
+
+        font-size: 25px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(14, 31, 47, 0.15);
+    }
+
+    /* Sidebar tertutup secara default */
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+
+        width: min(280px, 85vw);
+        height: 100vh;
+
+        padding: 28px 18px;
+
+        background: #0E1F2F;
+
+        z-index: 1000;
+
+        transform: translateX(-105%);
+        transition: transform 0.3s ease;
+    }
+
+    /* Sidebar saat dibuka */
+    .sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
+    .sidebar .brand {
+        display: block;
+    }
+
+    .sidebar .menu {
+        display: flex;
+    }
+
+    .logout-button {
+        display: block;
+        width: 100%;
+        margin-top: auto;
+    }
+
+    /* Lapisan gelap di belakang sidebar */
+    .sidebar-overlay.show {
+        display: block;
+
+        position: fixed;
+        inset: 0;
+
+        background: rgba(14, 31, 47, 0.55);
+
+        z-index: 900;
+    }
+
+    /* Ruang untuk tombol hamburger */
+    .main-content {
+        margin-left: 0;
+        padding: 75px 17px 30px;
+    }
+
+}
+
+/* Posisi tombol menu di tampilan HP */
+@media (max-width: 600px) {
+    #mobileMenuButton {
+        position: sticky !important;
+        top: 10px;
+        left: auto !important;
+        right: auto !important;
+        z-index: 90;
+
+        display: flex;
+        margin: 0 0 16px 0;
+    }
+}
+
+
+/* =========================================
+   SIDEBAR - PENYESUAIAN IKON DAN MENU
+========================================= */
+
+.sidebar .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 8px;
+}
+
+.brand-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #C38EB4;
+    color: #FFFFFF;
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.sidebar .menu-heading {
+    margin: 22px 0 10px;
+    padding: 0 15px;
+    color: #8FA1B2;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.sidebar .menu a {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-height: 48px;
+    padding: 12px 15px;
+    border-radius: 10px;
+}
+
+.sidebar .menu-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+.sidebar .menu-icon svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+}
+
+.sidebar .menu a.active {
+    background: #C38EB4;
+    color: #0E1F2F;
+    font-weight: 700;
+}
+
+.sidebar .logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 13px;
+}
+
+.sidebar .logout-button svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   PROFIL PENGGUNA - STYLE BACKEND
+========================================= */
+
+.topbar {
+    gap: 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 15px 9px 10px;
+    background: #FFFFFF;
+    border: 1px solid #EADDE6;
+    border-radius: 15px;
+    box-shadow: 0 3px 12px rgba(14, 31, 47, 0.04);
+}
+
+.profile-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 13px;
+    background: #E1CBD7;
+    color: #0E1F2F;
+}
+
+.profile-avatar svg {
+    width: 22px;
+    height: 22px;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.profile-details #username {
+    color: #0E1F2F;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.profile-details .role-badge {
+    padding: 0;
+    background: transparent;
+    color: #718096;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0;
+    border-radius: 0;
+}
+
+@media (max-width: 600px) {
+    .user-info {
+        align-self: flex-start;
+    }
 }

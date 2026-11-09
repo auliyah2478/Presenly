@@ -1,11 +1,30 @@
+
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
+/* ================================
+   LOGIN PAGE
+================================ */
+
+body.login-page {
+    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background:
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(225, 203, 215, 0.55),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 85% 85%,
+            rgba(134, 168, 207, 0.18),
+            transparent 30%
+        ),
+        #F7F2F6;
+    color: #0E1F2F;
 }
 
 .login-container {
@@ -13,42 +32,536 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 24px;
 }
 
 .login-card {
-    width: 360px;
-    background: white;
-    padding: 32px;
-    border-radius: 12px;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
-}
-
-.login-card h1 {
-    text-align: center;
-    margin-bottom: 8px;
-}
-
-.login-card p {
-    text-align: center;
-}
-
-.login-card input {
     width: 100%;
-    padding: 12px;
-    margin-top: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    max-width: 440px;
+    background: #FFFFFF;
+    padding: 42px;
+    border: 1px solid #E1CBD7;
+    border-radius: 22px;
+    box-shadow: 0 18px 50px rgba(14, 31, 47, 0.09);
 }
 
-.login-card button {
+/* ================================
+   BRAND
+================================ */
+
+.login-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    margin-bottom: 38px;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #0E1F2F;
+}
+
+.login-logo {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0E1F2F;
+    color: #FFFFFF;
+    border-radius: 13px;
+    font-size: 23px;
+}
+
+.brand-dot {
+    color: #C38EB4;
+}
+
+/* ================================
+   HEADING
+================================ */
+
+.login-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-eyebrow {
+    display: inline-block;
+    margin-bottom: 13px;
+    color: #C38EB4;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.login-heading h1 {
+    margin-bottom: 10px;
+    font-size: 29px;
+    font-weight: 800;
+    color: #0E1F2F;
+}
+
+.login-heading p {
+    color: #718096;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* ================================
+   FORM
+================================ */
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+}
+
+.login-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.login-field label {
+    color: #26425A;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.login-field input {
     width: 100%;
-    padding: 12px;
-    margin-top: 16px;
+    padding: 14px 15px;
+    border: 1px solid #D9DDE5;
+    border-radius: 10px;
+    outline: none;
+    background: #F7F2F6;
+    color: #0E1F2F;
+    font-family: inherit;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.login-field input::placeholder {
+    color: #9AA5B1;
+}
+
+.login-field input:focus {
+    border-color: #86A8CF;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(134, 168, 207, 0.18);
+}
+
+/* ================================
+   LOGIN BUTTON
+================================ */
+
+#loginButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 5px;
+    padding: 15px 20px;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
+    background: #0E1F2F;
+    color: #FFFFFF;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
     cursor: pointer;
+    transition: 0.25s ease;
 }
+
+#loginButton span {
+    color: #E1CBD7;
+    font-size: 19px;
+}
+
+#loginButton:hover {
+    background: #26425A;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(14, 31, 47, 0.18);
+}
+
+#loginButton:active {
+    transform: translateY(0);
+}
+
+/* ================================
+   MESSAGE
+================================ */
 
 #message {
-    margin-top: 12px;
+    min-height: 18px;
+    text-align: center;
+    color: #C05A6B;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ================================
+   FOOTER
+================================ */
+
+.login-footer {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #F0E7ED;
+    text-align: center;
+    color: #8995A3;
+    font-size: 11px;
+    letter-spacing: 0.4px;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 18px;
+    }
+
+    .login-card {
+        padding: 30px 23px;
+        border-radius: 18px;
+    }
+
+    .login-heading h1 {
+        font-size: 25px;
+    }
+
+    .login-brand {
+        margin-bottom: 30px;
+    }
+}
+
+
+/* =================================
+   INPUT MAHASISWA
+================================= */
+
+.login-field select {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid #D9DDE5;
+    border-radius: 10px;
+    outline: none;
+    background: #F7F2F6;
+    color: #0E1F2F;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.login-field select:focus {
+    border-color: #86A8CF;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(134, 168, 207, 0.18);
+}
+
+#simpanButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 5px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #0E1F2F;
+    color: #FFFFFF;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+#simpanButton:hover:not(:disabled) {
+    background: #26425A;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(14, 31, 47, 0.18);
+}
+
+#simpanButton:disabled {
+    background: #AAB5C0;
+    color: #FFFFFF;
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+
+/* =================================
+   REGISTRASI WAJAH
+================================= */
+
+.face-card {
+    max-width: 680px;
+}
+
+.face-info {
+    padding: 15px 18px;
+    margin-bottom: 20px;
+    background: #F7F2F6;
+    border: 1px solid #E1CBD7;
+    border-left: 4px solid #C38EB4;
+    border-radius: 10px;
+}
+
+.face-info p {
+    margin: 0;
+    color: #26425A;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.camera-container {
+    padding: 14px;
+    background: #0E1F2F;
+    border-radius: 15px;
+    box-shadow: 0 8px 22px rgba(14, 31, 47, 0.12);
+}
+
+.camera-label {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 12px;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.camera-indicator {
+    width: 9px;
+    height: 9px;
+    background: #86A8CF;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(134, 168, 207, 0.7);
+}
+
+.face-video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 220px;
+    object-fit: cover;
+    background: #172D40;
+    border: 2px solid rgba(225, 203, 215, 0.35);
+    border-radius: 10px;
+}
+
+.face-form {
+    margin-top: 20px;
+}
+
+#registrasiButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #0E1F2F;
+    color: #FFFFFF;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+#registrasiButton span {
+    color: #E1CBD7;
+    font-size: 19px;
+}
+
+#registrasiButton:hover:not(:disabled) {
+    background: #26425A;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(14, 31, 47, 0.18);
+}
+
+#registrasiButton:disabled {
+    background: #AAB5C0;
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+@media (max-width: 600px) {
+    .face-card {
+        padding: 25px 18px;
+    }
+
+    .face-video {
+        min-height: 180px;
+    }
+}
+
+
+/* =================================
+   SCAN ABSENSI
+================================= */
+
+.scan-card {
+    max-width: 680px;
+}
+
+.scan-video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 220px;
+    object-fit: cover;
+    background: #172D40;
+    border: 2px solid rgba(225, 203, 215, 0.35);
+    border-radius: 10px;
+}
+
+.scan-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#scanButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #0E1F2F;
+    color: #FFFFFF;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+#scanButton span {
+    color: #E1CBD7;
+    font-size: 19px;
+}
+
+#scanButton:hover:not(:disabled) {
+    background: #26425A;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(14, 31, 47, 0.18);
+}
+
+#scanButton:disabled {
+    background: #AAB5C0;
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+
+.scan-form #message {
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    color: #172B3D;
+    font-size: 13px;
+    line-height: 1.6;
+    text-align: left;
+    transition: 0.25s ease;
+}
+
+/* ALERT PESAN SCAN */
+.scan-form #message:not(:empty) {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 13px 16px;
+    background: #FCE7F3;
+    border: 1px solid #E9A8CF;
+    border-left: 5px solid #C38EB4;
+    border-radius: 10px;
+    color: #172B3D;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(195, 142, 180, 0.12);
+}
+
+/* PESAN ERROR */
+.scan-form #message:not(:empty)::before {
+    content: "⚠";
+    margin-right: 10px;
+    color: #B83280;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+
+/* =================================
+   HASIL ABSENSI
+================================= */
+
+#hasil:empty {
+    display: none;
+}
+
+#hasil:not(:empty) {
+    margin-top: 22px;
+    padding: 22px;
+    background: #FBF7FA;
+    border: 1px solid #E1CBD7;
+    border-left: 4px solid #C38EB4;
+    border-radius: 13px;
+    text-align: left;
+    animation: hasilMuncul 0.3s ease;
+}
+
+#hasil p {
+    margin: 0;
+    padding: 11px 0;
+    border-bottom: 1px solid #EADDE6;
+    color: #26425A;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+#hasil p:last-child {
+    border-bottom: none;
+}
+
+@keyframes hasilMuncul {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .scan-card {
+        padding: 25px 18px;
+    }
+
+    .scan-video {
+        min-height: 180px;
+    }
+
+    #hasil:not(:empty) {
+        padding: 16px;
+    }
 }

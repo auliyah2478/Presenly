@@ -24,15 +24,15 @@ DOSEN_PER_MATA_KULIAH = {
         'Ir. Ismail Puji Saputra, S.Kom.',
     ),
     'PIE 1515': (
-        'Ir. Imam Asrorwadi, S.Kom., M.Kom.',
-        'Ir. Eko Subagiyanto, S.Kom.',
+        'Ir. Imam Asrowardi, S.Kom., M.Kom.',
+        'Ir. Eko Subyantoro, S.Kom.',
     ),
     'PIE 1516': (
         'Ir. Dian Ayu Afifah, S.Si., M.Sc.',
-        'Ir. Nurul Gomariah, S.Kom.',
+        'Ir. Nurul Qomariah, S.Kom.',
     ),
     'PKU 1511': (
-        'Ir. Imam Asrorwadi, S.Kom., M.Kom.',
+        'Ir. Imam Asrowardi, S.Kom., M.Kom.',
         'Agus Ambarwari, S.Pd., M.Kom.',
     ),
 }

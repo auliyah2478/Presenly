@@ -171,8 +171,11 @@ class RiwayatAbsensi(models.Model):
         related_name='riwayat_absensi'
     )
 
-    waktu_absen = models.DateTimeField(auto_now_add=True)
-
+    waktu_absen = models.DateTimeField(
+    blank=True,
+    null=True
+    )
+    
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,

@@ -1,60 +1,97 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Input Mahasiswa - Presenly</title>
+    <title>Registrasi Mahasiswa | Presenly</title>
 
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/style.css?v=20261108-3">
 </head>
 
-<body>
+<body class="login-page">
 
-<div class="login-container">
+    <main class="login-container">
 
-    <div class="login-card">
+        <section class="login-card">
 
-        <h1>Input Mahasiswa</h1>
-        <p>Tambahkan data mahasiswa baru</p>
+            <div class="login-brand">
+                <div class="login-logo">P</div>
+                <span>presenly<span class="brand-dot">.</span></span>
+            </div>
 
-        <input
-            type="text"
-            id="npm"
-            placeholder="NPM"
-        >
+            <div class="login-heading">
+                <span class="login-eyebrow">
+                    STUDENT REGISTRATION
+                </span>
 
-        <input
-            type="text"
-            id="nama"
-            placeholder="Nama Mahasiswa"
-        >
+                <h1>Registrasi Mahasiswa</h1>
 
-        <input
-            type="email"
-            id="email"
-            placeholder="Email (opsional)"
-        >
+                <p>
+                    Tambahkan data mahasiswa baru
+                    ke sistem Presenly.
+                </p>
+            </div>
 
-        <select id="kelas">
-            <option value="">Pilih Kelas</option>
-        </select>
+            <div class="login-form">
 
-        <button
-            type="button"
-            id="simpanButton"
-            disabled
-        >
-            Simpan Mahasiswa
-        </button>
+                <div class="login-field">
+                    <label for="npm">Nomor Pokok Mahasiswa</label>
+                    <input
+                        type="text"
+                        id="npm"
+                        placeholder="Masukkan NPM"
+                    >
+                </div>
 
-        <p id="message"></p>
+                <div class="login-field">
+                    <label for="nama">Nama Lengkap</label>
+                    <input
+                        type="text"
+                        id="nama"
+                        placeholder="Masukkan nama mahasiswa"
+                    >
+                </div>
 
-    </div>
+                <div class="login-field">
+                    <label for="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Masukkan email (opsional)"
+                    >
+                </div>
 
-</div>
+                <div class="login-field">
+                    <label for="kelas">Kelas</label>
+                    <select id="kelas">
+                        <option value="">Pilih Kelas</option>
+                    </select>
+                </div>
 
-<script src="scripts/input_mahasiswa.js?v=20261105-3"></script>
+                <button
+                    type="button"
+                    id="simpanButton"
+                    disabled
+                >
+                    Simpan Mahasiswa
+                    <span aria-hidden="true">→</span>
+                </button>
+
+                <p id="message" aria-live="polite"></p>
+
+            </div>
+
+            <div class="login-footer">
+                Presenly · Smart Attendance System
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="scripts/input_mahasiswa.js?v=20261108-2"></script>
 
 </body>
 </html>

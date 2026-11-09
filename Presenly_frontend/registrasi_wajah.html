@@ -1,8 +1,8 @@
+
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -10,71 +10,91 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        Registrasi Wajah - Presenly
-    </title>
+    <title>Registrasi Wajah | Presenly</title>
 
     <link
         rel="stylesheet"
-        href="styles/style.css"
+        href="styles/style.css?v=20261108-5"
     >
 
 </head>
 
+<body class="login-page">
 
-<body>
+    <main class="login-container">
 
-<div class="login-container">
+        <section class="login-card face-card">
 
-    <div class="login-card">
+            <div class="login-brand">
+                <div class="login-logo">P</div>
+                <span>presenly<span class="brand-dot">.</span></span>
+            </div>
 
-        <h1>
-            Registrasi Wajah
-        </h1>
+            <div class="login-heading">
+                <span class="login-eyebrow">
+                    FACE REGISTRATION
+                </span>
 
-        <p id="infoMahasiswa">
-            Menyiapkan kamera...
-        </p>
+                <h1>Registrasi Wajah</h1>
 
+                <p>
+                    Arahkan wajah ke kamera untuk
+                    mendaftarkan identitas biometrik.
+                </p>
+            </div>
 
-        <video
-            id="video"
-            autoplay
-            playsinline
-            muted
-            style="
-                width: 100%;
-                border-radius: 10px;
-                margin-top: 15px;
-            "
-        >
-        </video>
+            <div class="face-info">
+                <p id="infoMahasiswa">
+                    Menyiapkan informasi mahasiswa...
+                </p>
+            </div>
 
+            <div class="camera-container">
 
-        <canvas
-            id="canvas"
-            style="display: none;"
-        >
-        </canvas>
+                <div class="camera-label">
+                    <span class="camera-indicator"></span>
+                    Kamera Presenly
+                </div>
 
+                <video
+                    id="video"
+                    autoplay
+                    playsinline
+                    muted
+                    class="face-video"
+                ></video>
 
-        <button
-            type="button"
-            id="registrasiButton"
-            style="margin-top: 15px;"
-            disabled
-        >
-            Daftarkan Wajah
-        </button>
+            </div>
 
+            <canvas
+                id="canvas"
+                style="display: none;"
+            ></canvas>
 
-        <p id="message"></p>
+            <div class="login-form face-form">
 
-    </div>
+                <button
+                    type="button"
+                    id="registrasiButton"
+                    disabled
+                >
+                    Daftarkan Wajah
+                    <span aria-hidden="true">→</span>
+                </button>
 
-</div>
+                <p id="message" aria-live="polite"></p>
 
+            </div>
 
-<script src="scripts/registrasi_wajah.js?v=3"></script>
+            <div class="login-footer">
+                Presenly · Smart Attendance System
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="scripts/registrasi_wajah.js?v=4"></script>
+
 </body>
 </html>

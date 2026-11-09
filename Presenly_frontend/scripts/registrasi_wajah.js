@@ -5,6 +5,15 @@ const canvas = document.getElementById("canvas");
 const registrasiButton = document.getElementById("registrasiButton");
 const message = document.getElementById("message");
 const infoMahasiswa = document.getElementById("infoMahasiswa");
+const token = localStorage.getItem("token");
+const role = localStorage.getItem("role");
+const aksesAdmin = Boolean(token && role === "admin");
+
+if (!token) {
+    window.location.replace("login.html");
+} else if (role !== "admin") {
+    window.location.replace("dashboard.html");
+}
 
 
 // ========================================
@@ -106,6 +115,12 @@ registrasiButton.addEventListener(
 
         console.log("Tombol Daftarkan Wajah diklik");
 
+        if (!token || role !== "admin") {
+            message.innerText =
+                "Sesi admin tidak ditemukan. Silakan login kembali.";
+
+            return;
+        }
 
         if (!npm) {
 
@@ -199,8 +214,11 @@ registrasiButton.addEventListener(
                             "http://127.0.0.1:8000/api/registrasi-wajah/",
                             {
                                 method: "POST",
-                                body: formData
-                            }
+                                headers: {
+                                    "Authorization": `Token ${token}`
+                        },
+                        body: formData
+                    }       
                         );
 
 
@@ -300,4 +318,8 @@ registrasiButton.addEventListener(
 // JALANKAN KAMERA
 // ========================================
 
-startCamera();
+if (aksesAdmin && npm) {
+    startCamera();
+} else {
+    registrasiButton.disabled = true;
+}

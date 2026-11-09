@@ -1,45 +1,78 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Presenly</title>
+    <title>Login | Presenly</title>
 
     <link rel="stylesheet" href="styles/style.css">
 </head>
 
-<body>
+<body class="login-page">
 
-<div class="login-container">
+    <main class="login-container">
 
-    <div class="login-card">
+        <section class="login-card">
 
-        <h1>Presenly</h1>
-        <p>Silakan login untuk melanjutkan</p>
+            <div class="login-brand">
+                <div class="login-logo">P</div>
+                <span>presenly<span class="brand-dot">.</span></span>
+            </div>
 
-        <input
-            type="text"
-            id="username"
-            placeholder="Username"
-        >
+            <div class="login-heading">
+                <span class="login-eyebrow">
+                    SMART ATTENDANCE SYSTEM
+                </span>
 
-        <input
-            type="password"
-            id="password"
-            placeholder="Password"
-        >
+                <h1>Selamat Datang</h1>
 
-        <button id="loginButton">
-            Login
-        </button>
+                <p>
+                    Silakan login untuk melanjutkan
+                    ke sistem Presenly.
+                </p>
+            </div>
 
-        <p id="message"></p>
+            <div class="login-form">
 
-    </div>
+                <div class="login-field">
+                    <label for="username">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Masukkan username"
+                        autocomplete="username"
+                    >
+                </div>
 
-</div>
+                <div class="login-field">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Masukkan password"
+                        autocomplete="current-password"
+                    >
+                </div>
 
-<script src="scripts/login.js"></script>
+                <button type="button" id="loginButton">
+                    Masuk ke Presenly
+                    <span aria-hidden="true">→</span>
+                </button>
+
+                <p id="message" aria-live="polite"></p>
+
+            </div>
+
+            <div class="login-footer">
+                Presenly · Smart Attendance System
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="scripts/login.js"></script>
 
 </body>
 </html>
